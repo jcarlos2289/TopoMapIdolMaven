@@ -886,16 +886,13 @@ public class Node {
 				List<WordFrequency> wordFrequencies=new  ArrayList<WordFrequency>();
 				   
 				for(Entry<String, Float> e : tagForCloud.entrySet()){
-					wordFrequencies.add(new WordFrequency(e.getKey(),    Math.round( e.getValue())    ));
+					wordFrequencies.add(new WordFrequency(e.getKey(), Math.round( e.getValue())));
+					//System.out.println(e.getKey()+"\n");
 				}
 				
-				// new WordFrequency("baby", 3)
-				
-				
-
-				final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
-				wordCloud.setPadding(2);
-				wordCloud.setBackground(new CircleBackground(299));
+				final WordCloud wordCloud = new WordCloud(850, 850, CollisionMode.RECTANGLE);
+				wordCloud.setPadding(5);
+				wordCloud.setBackground(new CircleBackground(415));
 				wordCloud.setBackgroundColor(Color.white);
 				//wordCloud.setBackground(new RectangleBackground(600,600));
 				//wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
@@ -903,8 +900,8 @@ public class Node {
 				
 				//(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN)
 				//new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF))
-				wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1),new Color(0x00CC00), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFF3333),new Color(0xFFFFF)));
-				wordCloud.setFontScalar(new SqrtFontScalar(20, 100));
+				wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1),new Color(0x00CC00), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFF3333),new Color(0xFFF00)));
+				wordCloud.setFontScalar(new SqrtFontScalar(8, 65));
 				wordCloud.build(wordFrequencies);
 				
 				

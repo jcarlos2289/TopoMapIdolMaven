@@ -309,9 +309,9 @@ public class CanvasMap extends JPanel implements MouseListener {
 		
 		 tagCloudDialog =new JDialog(gui);
 		 tagCloudDialog.setTitle("Tags Cloud");
-		 tagCloudDialog.setSize(new Dimension(600,600));
-	     
+		 	     
 		 JLabel lab =  new JLabel(new ImageIcon(sel.getTagCloudImage()));
+		 tagCloudDialog.setSize(new Dimension(lab.getIcon().getIconWidth(),lab.getIcon().getIconHeight()));
 		 tagCloudDialog.add(lab);
 		 tagCloudDialog.setLocation(850,0);
 		// tagCloudDialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
