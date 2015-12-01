@@ -24,11 +24,10 @@ import wordcloud.CollisionMode;
 import wordcloud.WordCloud;
 import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
-import wordcloud.bg.PixelBoundryBackground;
-import wordcloud.bg.RectangleBackground;
+
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.palette.ColorPalette;
-import wordcloud.palette.ColorPalette;;
+
 
 
 public class Node {
@@ -706,6 +705,26 @@ public class Node {
 		return mean10;
 		}
 	
+	public ArrayList<String> getTopNodes(float thre){
+		//order the histoMean
+		ArrayList<String> mean10 = new ArrayList<String>();
+		LinkedHashMap<String, Float> sortedByValue = orderHashMap(histoMean, true);
+	
+		//thre=0;
+		//int h = 0;
+		for(Entry<String, Float> e : sortedByValue.entrySet()){
+			if(e.getValue()>thre)
+				mean10.add(e.getKey());
+			else 
+				break;
+			}
+		return mean10;
+		}
+	
+	
+	
+	
+	
 	private float getTagPresence(ArrayList<String> pattern, ArrayList<String> surface ){
 		int found = 0;
 		
@@ -906,6 +925,7 @@ public class Node {
 				
 				
 				BufferedImage img = wordCloud.getBufferedImage();
+				//wordCloud.writeToFile("resultados/datarank_wordcloud_circle_sqrt_font300.png");
 		
 		
 		return img;

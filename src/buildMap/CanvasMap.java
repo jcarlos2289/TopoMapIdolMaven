@@ -8,15 +8,21 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 //import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +36,8 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;*/
+
+
 
 public class CanvasMap extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1366050590724868148L;
@@ -170,7 +178,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 			
 		}
 		//else{
-		
+		//Para TagMode
 		if(gui.tagMode && gui.mapGenerated){
 			if(gui.selectTagChanged && !gui.selectedTag.equals(null)){
 				//Proceso para mostrar los highTags
@@ -194,7 +202,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 				        g.setFont(fuente);
 				        g.drawString(String.valueOf(h), x+1, y+10);
 				        g.setFont(oldFont);
-				        g.drawString(gui.selectedTag, 250, 30);
+				        g.drawString(gui.selectedTag, 223, 30);
 				        
 				        
 					}
@@ -205,6 +213,44 @@ public class CanvasMap extends JPanel implements MouseListener {
 				
 			}
 		}	
+		
+		
+		//para thTag Mode
+		if(gui.thTagMode && gui.mapGenerated ){
+			if(gui.selectTagChanged && !gui.selectedTag.equals(null) && gui.thTag>=0){
+				//Proceso para mostrar los highTags
+				
+				ArrayList<String> aux;
+				
+				for(Node n:gui.bm.map.nodes){
+					aux = n.getTopNodes((float)gui.thTag);
+					if(!aux.isEmpty()){
+						if(aux.contains(gui.selectedTag)){
+							x=(int)(zoomFactor*(n.representative.xcoord-xmean)+xdesp);
+							y=(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp);
+					        g.drawOval(x, y, radius, radius);
+					        g.setColor(new Color(251,255,97));
+					        g.drawRect(x, y, radius, radius);
+					        g.fillRect(x, y, radius, radius);
+					        int h = aux.indexOf(gui.selectedTag)+1;
+					        g.setColor(Color.BLACK);
+					        
+					        Font oldFont=getFont();
+					        Font fuente=new Font("Monospaced", Font.PLAIN, 10);
+					        g.setFont(fuente);
+					        g.drawString(String.valueOf(h), x+1, y+10);
+					        g.setFont(oldFont);
+					        g.drawString(gui.selectedTag, 223, 30);
+				        
+				        
+					}
+				}
+				}
+							
+			}
+		}
+		
+		
 		
 		
 		
@@ -315,8 +361,63 @@ public class CanvasMap extends JPanel implements MouseListener {
 		 tagCloudDialog.add(lab);
 		 tagCloudDialog.setLocation(850,0);
 		// tagCloudDialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 tagCloudDialog.setVisible(true);
 		
+		 
+		 JButton h = new JButton("Guardar");
+		 h.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("aloha world");
+				saveTagCloud(lab);
+				
+			}
+
+			private void saveTagCloud(JLabel lab) {
+				// TODO Auto-generated method stub
+				Date date = new Date();
+	        	  DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        	  String imgName = gui.name+"_"+gui.selectedTag+"_"+gui.bm.threshold1+"_"+gui.bm.threshold2+"_"+hourdateFormat.format(date);
+	        	  
+	        	  
+	        	  
+	        	 JPanel panel = new JPanel();
+	      		panel.add(lab);
+	     		 File miDir = new File(".");
+	     	     String c = miDir.getAbsolutePath();
+
+	     	     //elimino el punto (.) nombre del archivo(virtual) que cree para obtener la ruta de la carpeta del proyecto
+	     	     String ruta = c.substring(0, c.length() - 1);
+	              ruta += "resultados/" + imgName.trim() + ".png";
+	     		
+	     		File fichero = new File(ruta);
+	     	    int w = panel.getWidth();
+	     	    int h = panel.getHeight();
+	     	    
+	     	    w= lab.getIcon().getIconWidth();
+	     	    h= lab.getIcon().getIconHeight();
+	     	    
+	     	    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+	     	    Graphics2D g = bi.createGraphics();
+	     	    panel.paint(g);
+	     	    
+	     	    try {
+	     			ImageIO.write(bi, "png", fichero);
+	     			System.out.println("Image " +imgName +" Saved");
+	     		} catch (IOException e) {
+	     			System.out.println("Writing Error");
+	     		}
+	        	  
+	        	 	
+			}
+		});
+		
+		 JPanel f = new JPanel();
+		 f.add(h);
+		 f.add(lab);
+		 tagCloudDialog.add(f);
+		 tagCloudDialog.setVisible(true);
 			
 		
 	}

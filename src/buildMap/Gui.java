@@ -36,13 +36,13 @@ public class Gui extends JFrame implements ActionListener {
 	int width = 1000, height = 900;
 	JButton process, clusterbt, clusterCoefBt;
 	JCheckBox originalButton, graphButton, backButton, showNodes,clusters,highTags;
-	JTextField th1, th2, th3;
+	JTextField th1, th2, th3,thTagTF;
 	JComboBox<String> nodes;
 	JComboBox<String> tagList;
-	double threshold1, threshold2;
+	double threshold1, threshold2, thTag=0;
 	int cutNode;
 	boolean original = true, showMap = true, background = true,
-			mapGenerated = false, nodesMode = false, selectNodeChanged = false, showCluster = false, tagMode = false, selectTagChanged = false;
+			mapGenerated = false, nodesMode = false, selectNodeChanged = false, showCluster = false, tagMode = false, selectTagChanged = false, thTagMode=false;
 	int selectedNode = -1 ;
 	String selectedTag = null;
 	
@@ -52,11 +52,13 @@ public class Gui extends JFrame implements ActionListener {
 	
 	 JMenu jmOperations, jmShows;
 	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap;
-     JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB, highTagsCB;
+     JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB, highTagsCB, thTagsCB;
+     JMenu jMDataSet,jMSunny,jMCloudy, jMNight;
+     JMenuItem jmiCl_1, jmiCl_2, jmiCl_3, jmiCl_4, jmiNi_1, jmiNi_2, jmiNi_3, jmiNi_4, jmiSu_1, jmiSu_2, jmiSu_3, jmiSu_4;
 	
 	public Gui() {
 		threshold1 = 0.001;
-		threshold2 = 0.01;
+		threshold2 = 0.015;
 		cutNode = 15;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
 		// bm.readTags("/Users/miguel/Dropbox/Investigacion/Desarrollo/MapaTopologico/tagsNewCollege/NewCollegeTags/PanoStitchOutput_LisaNewCollegeNov3_");
@@ -102,7 +104,7 @@ public class Gui extends JFrame implements ActionListener {
 		//----------------------------Individuales----------------------------------------------------------------
 		
 		//Cloudy
-		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
+	//	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
 		//name= "MinnieCloudy1_HybridAlexNet";
 		
 		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
@@ -125,23 +127,23 @@ public class Gui extends JFrame implements ActionListener {
 		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
 		//name= "MinnieNight3_HybridAlexNet";
 
-		bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
-		name= "MinnieNight4_HybridAlexNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
+		//name= "MinnieNight4_HybridAlexNet";
 
 
 		//Sunny
 				
 		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
-		//name= "MinnieSunny1_HybridAlexNet";
+	//	name= "MinnieSunny1_HybridAlexNet";
 				
-		//bm.readTags("/home/rvg/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, "/home/rvg/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
-		//name= "MinnieSunny2_HybridAlexNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
+	//	name= "MinnieSunny2_HybridAlexNet";
 
-		//bm.readTags("/home/rvg/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, "/home/rvg/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
 		//name= "MinnieSunny3_HybridAlexNet";
 
-		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
-		//name= "MinnieSunny4_HybridAlexNet";
+		bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
+		name= "MinnieSunny4_HybridAlexNet";
 		
 			
 		
@@ -217,6 +219,7 @@ public class Gui extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		
+		
 	}
 
 	public JPanel getToolBar() {
@@ -273,9 +276,15 @@ public class Gui extends JFrame implements ActionListener {
 			clustersCB.setEnabled(false);
 			
 			highTagsCB = new JCheckBoxMenuItem("Show High Tag");
+			highTagsCB.addActionListener(this);
 			highTagsCB.setSelected(false);
 			highTagsCB.setEnabled(false);
-			highTagsCB.addActionListener(this);
+			
+			
+			thTagsCB = new JCheckBoxMenuItem("Show High Threshold Tags");
+			thTagsCB.addActionListener(this);
+			thTagsCB.setSelected(false);
+			thTagsCB.setEnabled(false);
 			
 			
 	                
@@ -285,11 +294,98 @@ public class Gui extends JFrame implements ActionListener {
 	        jmShows.add(showNodesCB);
 	        jmShows.add(clustersCB);
 	        jmShows.add(highTagsCB);
+	        jmShows.add(thTagsCB);
 	        
 	        //JPanel jp2 = new JPanel();
 	        JMenuBar jMenuBar1 = new JMenuBar();
 	        jMenuBar1.add(jmOperations);
 	        jMenuBar1.add(jmShows);
+	        
+	        
+	        jMCloudy = new javax.swing.JMenu();
+	        jmiCl_1 = new javax.swing.JMenuItem();
+	        jmiCl_2 = new javax.swing.JMenuItem();
+	        jmiCl_3 = new javax.swing.JMenuItem();
+	        jmiCl_4 = new javax.swing.JMenuItem();
+	        jMNight = new javax.swing.JMenu();
+	        jmiNi_1 = new javax.swing.JMenuItem();
+	        jmiNi_2 = new javax.swing.JMenuItem();
+	        jmiNi_3 = new javax.swing.JMenuItem();
+	        jmiNi_4 = new javax.swing.JMenuItem();
+	        jMSunny = new javax.swing.JMenu();
+	        jmiSu_1 = new javax.swing.JMenuItem();
+	        jmiSu_2 = new javax.swing.JMenuItem();
+	        jmiSu_3 = new javax.swing.JMenuItem();
+	        jmiSu_4 = new javax.swing.JMenuItem();
+	        jMDataSet = new javax.swing.JMenu();
+	        
+	        
+	        jMDataSet.setText("Select Data");
+
+	        jMCloudy.setText("Minnie Cloudy");
+
+	        jmiCl_1.setText("Sequence 1");
+	        jmiCl_1.addActionListener(this);
+	        jMCloudy.add(jmiCl_1);
+
+	        jmiCl_2.setText("Sequence 2");
+	        jmiCl_2.addActionListener(this);
+	        jMCloudy.add(jmiCl_2);
+
+	        jmiCl_3.setText("Sequence 3");
+	        jmiCl_3.addActionListener(this);
+	        jMCloudy.add(jmiCl_3);
+
+	        jmiCl_4.setText("Sequence 4");
+	        jmiCl_4.addActionListener(this);
+	        jMCloudy.add(jmiCl_4);
+
+	        jMDataSet.add(jMCloudy);
+
+	        jMNight.setText("Minnie Night");
+
+	        jmiNi_1.setText("Sequence 1");
+	        jmiNi_1.addActionListener(this);
+	        jMNight.add(jmiNi_1);
+
+	        jmiNi_2.setText("Sequence 2");
+	        jmiNi_2.addActionListener(this);
+	        jMNight.add(jmiNi_2);
+
+	        jmiNi_3.setText("Sequence 3");
+	        jmiNi_3.addActionListener(this);
+	        jMNight.add(jmiNi_3);
+
+	        jmiNi_4.setText("Sequence 4");
+	        jmiNi_4.addActionListener(this);
+	        jMNight.add(jmiNi_4);
+
+	        jMDataSet.add(jMNight);
+
+	        jMSunny.setText("Minnie Sunny");
+
+	        jmiSu_1.setText("Sequence 1");
+	        jmiSu_1.addActionListener(this);
+	        jMSunny.add(jmiSu_1);
+
+	        jmiSu_2.setText("Sequence 2");
+	        jmiSu_2.addActionListener(this);
+	        jMSunny.add(jmiSu_2);
+
+	        jmiSu_3.setText("Sequence 3");
+	        jmiSu_3.addActionListener(this);
+	        jMSunny.add(jmiSu_3);
+
+	        jmiSu_4.setText("Sequence 4");
+	        jmiSu_4.addActionListener(this);
+	        jMSunny.add(jmiSu_4);
+
+	        jMDataSet.add(jMSunny);
+
+	    //    jMenuBar1.add(jMDataSet);
+	        
+	        
+	        
 
 	        this.setJMenuBar(jMenuBar1);
 		
@@ -356,6 +452,15 @@ public class Gui extends JFrame implements ActionListener {
 		th3 = new JTextField(String.valueOf(cutNode));
 		th3.addActionListener(this);
 		jp.add(th3);
+		
+		JLabel lab4 = new JLabel("TagThreshold");
+		jp.add(lab4);
+		thTagTF=new JTextField(String.valueOf(thTag));
+		thTagTF.addActionListener(this);
+		thTagTF.setEnabled(false);
+		
+	
+		jp.add(thTagTF);
 		
 		showNodes = new JCheckBox("ShowNodes");
 		showNodes.setSelected(false);
@@ -436,6 +541,7 @@ public class Gui extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		g.setLocationRelativeTo(null);
 		 g.setVisible(true);
 	     g.toFront();
 		
@@ -605,17 +711,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			while(k<=800);
 			
-			
-			/*			
-			try {
-				DrawLineChart.viewChart(coef,name);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-				*/
-			
-			
+				
 			return;
 		}
 		
@@ -664,6 +760,11 @@ public class Gui extends JFrame implements ActionListener {
 			cm.repaint();
 			return;
 		}
+		
+		if (e.getSource()== thTagTF){
+			thTag=Double.parseDouble(thTagTF.getText());
+			return;
+		}
 		if (e.getSource() == showNodes) {
 			nodesMode = showNodes.isSelected();
 			selectedNode = -1;
@@ -685,15 +786,30 @@ public class Gui extends JFrame implements ActionListener {
 		}
 		
 		if (e.getSource() == tagList) {
+			
+			
+			if(tagMode){
 			if (((String) tagList.getSelectedItem()).equals("Select Tag")) {
 				selectedTag = null;
 			} else {
 				selectedTag = (String) tagList.getSelectedItem();
 				selectTagChanged = true;
-				tagMode =true;
+				//tagMode =true;
 				nodesMode=false;
 				cm.repaint();
+			}}
+			
+			
+			if(thTagMode){
+				if(!thTagTF.getText().isEmpty()){
+					thTag = Double.parseDouble(thTagTF.getText());
+					selectedTag = (String) tagList.getSelectedItem();
+					selectTagChanged = true;
+					nodesMode=false;
+					cm.repaint();
+				}
 			}
+			
 			return;
 		}
 		
@@ -729,12 +845,42 @@ public class Gui extends JFrame implements ActionListener {
 	        }
 	         
 	         if(e.getSource()== highTagsCB){
-	              	tagMode=highTags.isSelected();
-	        	// tagList.setEnabled(highTags.isSelected());
-	             
-	        	 cm.repaint();
+	             tagMode=highTagsCB.isSelected();
+	             //System.out.println("Evento tag");
+	        	 if(tagMode){
+	        		 //System.out.println("Tag mode en True");
+	        		 thTagMode= false;
+	        		 thTagsCB.setSelected(false);
+	        		 thTagTF.setEnabled(false);
+	             if (!((String) tagList.getSelectedItem()).equals("Select Tag")){
+	            	 selectTagChanged = true;
+	            	 //tagMode=true;
+	                 selectedTag=(String) tagList.getSelectedItem();}
+	             }
+	             cm.repaint();
 	        	 return;
 	         }
+	         
+	         if(e.getSource()== thTagsCB){
+	             thTagMode=thTagsCB.isSelected();
+	             //System.out.println("Evento tag");
+	        	 if(thTagMode){
+	        		 thTagTF.setEnabled(true);
+	        		 tagMode=false;
+	        		 highTagsCB.setSelected(false);
+	        		 thTag = Double.parseDouble(thTagTF.getText());
+	        		 //System.out.println("Tag mode en True");
+	             if (!((String) tagList.getSelectedItem()).equals("Select Tag")){
+	            	 selectTagChanged = true;
+	            	 //tagMode=true;
+	                 selectedTag=(String) tagList.getSelectedItem();}
+	             }
+	        	 else
+	        		 thTagTF.setEnabled(false);
+	             cm.repaint();
+	        	 return;
+	         }
+	                 
 	         
 	     	if (e.getSource() == clustersCB) {
 				showCluster = clustersCB.isSelected();
@@ -754,6 +900,8 @@ public class Gui extends JFrame implements ActionListener {
 	  			tagList.setEnabled(true);
 	  			highTagsCB.setEnabled(true);
 	  			highTagsCB.setSelected(true);
+	  			thTagsCB.setEnabled(true);
+	  			thTagsCB.setSelected(false);
 	  			tagMode =true;
 	  			mapGenerated = true;
 	  			cm.repaint();
@@ -807,9 +955,117 @@ public class Gui extends JFrame implements ActionListener {
 	  			
 	  			return;
 	  		}
+	  		//Cloudy
+	  		if(e.getSource() == jmiCl_1){
+	  			//Cloudy
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
+	  			name= "MinnieCloudy1_HybridAlexNet";
+	  			setTitle(name);      
+            	cm.repaint();
+	  			return;
+	  		}
 	          
+	  		if(e.getSource() == jmiCl_2){
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
+	  			name= "MinnieCloudy2_HybridAlexNet";
+	  		 	setTitle(name);      
+            	cm.repaint();
+	  			return;
+	  		}
+	  		
+	  		if(e.getSource() == jmiCl_3){
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_", -0.00000001, 894, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, 5, 2000000000);
+	  			name= "MinnieCloudy3_HybridAlexNet";
+	  		 	setTitle(name);      
+            	cm.repaint();
+	  			return;
+	  		}
+	  		
+	  		if(e.getSource() == jmiCl_4){
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_", -0.00000001, 975, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, 5, 2000000000);
+	  			name= "MinnieCloudy4_HybridAlexNet";
+	  		 	setTitle(name);      
+            	cm.repaint();
+	  			return;
+	  		}
 	        
-	        
+	  		 //Night
+	  		if(e.getSource() == jmiNi_1){
+
+	  			//Night
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night1/min_night1_HybridAlexNet/IDOL_MINNIE_Ni1_", -0.00000001, 1039, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night1/IDOL_MINNIE_Ni1.txt",1183, 5, 2000000000);
+	  			name= "MinnieNight1_HybridAlexNet";
+	  		 	setTitle(name);      
+            	cm.repaint();
+                return;
+            }
+              
+            if(e.getSource() == jmiNi_2){
+            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", -0.00000001, 1181, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, 5, 2000000000);
+	  			name= "MinnieNight2_HybridAlexNet";
+            	setTitle(name);      
+            	cm.repaint();
+                
+                return;
+            }
+            
+            if(e.getSource() == jmiNi_3){
+            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
+	  			name= "MinnieNight3_HybridAlexNet";
+	  		 	setTitle(name);      
+            	cm.repaint();
+                return;
+            }
+           
+            if(e.getSource() == jmiNi_4){
+                //bm.readtags
+                //gui,settittle
+                //name=
+                bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
+        		name= "MinnieNight4_HybridAlexNet";
+            	setTitle(name);      
+            	cm.repaint();
+                return;
+            }
+	        //Sunny
+            
+            if(e.getSource() == jmiSu_1){
+
+	  			//Sunny
+	  					
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
+	  			name= "MinnieSunny1_HybridAlexNet";
+	  			setTitle(name);      
+            	cm.repaint();
+                return;
+            }
+              
+            if(e.getSource() == jmiSu_2){
+            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
+	  			name= "MinnieSunny2_HybridAlexNet";
+	  			setTitle(name);      
+            	cm.repaint();
+                
+                return;
+            }
+            
+            if(e.getSource() == jmiSu_3){
+            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
+	  			name= "MinnieSunny3_HybridAlexNet";
+	  			setTitle(name);      
+            	cm.repaint();
+                
+                return;
+            }
+            
+            if(e.getSource() == jmiSu_4){
+			
+	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
+	  			name= "MinnieSunny4_HybridAlexNet";
+	  			setTitle(name);      
+            	cm.repaint();
+                return;
+            }
 		
 		
 	}
