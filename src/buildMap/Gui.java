@@ -142,8 +142,8 @@ public class Gui extends JFrame implements ActionListener {
 		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
 		//name= "MinnieSunny3_HybridAlexNet";
 
-		bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
-		name= "MinnieSunny4_HybridAlexNet";
+		//bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
+	//	name= "MinnieSunny4_HybridAlexNet";
 		
 			
 		
@@ -382,7 +382,7 @@ public class Gui extends JFrame implements ActionListener {
 
 	        jMDataSet.add(jMSunny);
 
-	    //    jMenuBar1.add(jMDataSet);
+	        jMenuBar1.add(jMDataSet);
 	        
 	        
 	        
@@ -905,8 +905,8 @@ public class Gui extends JFrame implements ActionListener {
 	  			tagMode =true;
 	  			mapGenerated = true;
 	  			cm.repaint();
-	  			cm.showNodeDetails();
-	  			cm.showMapInfo();
+	  			//cm.showNodeDetails();
+	  			//cm.showMapInfo();
 	            return;
 	        }
 	          
@@ -966,6 +966,7 @@ public class Gui extends JFrame implements ActionListener {
 	  		}
 	          
 	  		if(e.getSource() == jmiCl_2){
+	  			//cm = new CanvasMap(this);
 	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
 	  			name= "MinnieCloudy2_HybridAlexNet";
 	  		 	setTitle(name);      

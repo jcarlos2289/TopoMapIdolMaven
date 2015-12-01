@@ -27,6 +27,7 @@ import wordcloud.bg.CircleBackground;
 
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.palette.ColorPalette;
+import java.io.InputStream;
 
 
 
@@ -870,18 +871,30 @@ public class Node {
 				HashMap<String, Float> tagForCloud = new HashMap<String, Float>();
 							
 				int h = 0;
+				
+				
+				
+				double x = 0.025;
 				for(Entry<String, Float> e : sortedByValue.entrySet()){
 					///tags.put(e.getKey(), e.getValue());
+				
+					
+					if(e.getValue()>x){
 					mean100.add(e.getKey());
-					mean100fl.add(e.getValue());
-					if(++h ==100) 
+					mean100fl.add(e.getValue());}
+					else
 						break;
+					
+					/*if(++h ==100) 
+						break;*/
+					
+					
 					}
 				
 				
 				float max , min;
 				max = (mean100fl.get(0));
-				min = (mean100fl.get(99));
+				min = (mean100fl.get(mean100fl.size()-1));
 				
 			
 				for (int i = 0; i < mean100.size(); i++) {
@@ -909,9 +922,9 @@ public class Node {
 					//System.out.println(e.getKey()+"\n");
 				}
 				
-				final WordCloud wordCloud = new WordCloud(850, 850, CollisionMode.RECTANGLE);
+				final WordCloud wordCloud = new WordCloud(290, 290, CollisionMode.RECTANGLE);
 				wordCloud.setPadding(5);
-				wordCloud.setBackground(new CircleBackground(415));
+				wordCloud.setBackground(new CircleBackground(140));
 				wordCloud.setBackgroundColor(Color.white);
 				//wordCloud.setBackground(new RectangleBackground(600,600));
 				//wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
@@ -920,7 +933,7 @@ public class Node {
 				//(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN)
 				//new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF))
 				wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1),new Color(0x00CC00), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFF3333),new Color(0xFFF00)));
-				wordCloud.setFontScalar(new SqrtFontScalar(8, 65));
+				wordCloud.setFontScalar(new SqrtFontScalar(8, 40));
 				wordCloud.build(wordFrequencies);
 				
 				

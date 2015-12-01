@@ -47,7 +47,9 @@ public class CanvasMap extends JPanel implements MouseListener {
 ;
 	double zoomFactor=28;
 	double xdesp, ydesp;
-	int radius=10;
+	
+	int radius=15;
+	
 	JDialog tags=null, nodeInfo=null, top=null, nodeDetailsDialog =null, mapInfoDialog=null, tagCloudDialog=null;
 	//JDialog graf=null;
 	
@@ -123,8 +125,9 @@ public class CanvasMap extends JPanel implements MouseListener {
 				Node selectn = gui.bm.map.nodes.get(gui.selectedNode);
 				for (ImageTags img:selectn.images) {
 					x=(int)(zoomFactor*(img.xcoord-xmean)+xdesp);
-					y=(int)(-zoomFactor*(img.ycoord-ymean)+ydesp);
+					y=(int)(-zoomFactor*(img.ycoord-ymean)+ydesp);					
 			        g.drawOval(x, y, radius, radius);
+			        g.fillOval(x, y, radius, radius);
 				}
 				g.setColor(new Color(0,255,255));
 				x=(int)(zoomFactor*(selectn.representative.xcoord-xmean)+xdesp);
@@ -160,17 +163,26 @@ public class CanvasMap extends JPanel implements MouseListener {
 			
 			
 			else {
-				for (Node n:gui.bm.map.nodes) {
-					x=(int)(zoomFactor*(n.representative.xcoord-xmean)+xdesp);
-					y=(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp);
-			        g.drawOval(x, y, radius, radius);
-				}
+				
 				for (Map.Edge e:gui.bm.map.edges) {
 					xAnt=(int)(zoomFactor*(e.a.representative.xcoord-xmean)+xdesp);
 					yAnt=(int)(-zoomFactor*(e.a.representative.ycoord-ymean)+ydesp);
 					x=(int)(zoomFactor*(e.b.representative.xcoord-xmean)+xdesp);
 					y=(int)(-zoomFactor*(e.b.representative.ycoord-ymean)+ydesp);
 					g2d.drawLine(xAnt+radius/2, yAnt+radius/2, x+radius/2, y+radius/2);
+				}
+				
+				for (Node n:gui.bm.map.nodes) {
+					x=(int)(zoomFactor*(n.representative.xcoord-xmean)+xdesp);
+					y=(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp);
+			       
+					
+			        g.setColor(new Color(255,255,255));
+			        g.fillOval(x, y, radius, radius);
+			        
+			        g.setColor(new Color(0,0,255));
+			        g.drawOval(x, y, radius, radius);
+
 				}
 			}
 			
@@ -357,19 +369,19 @@ public class CanvasMap extends JPanel implements MouseListener {
 		 tagCloudDialog.setTitle("Tags Cloud");
 		 	     
 		 JLabel lab =  new JLabel(new ImageIcon(sel.getTagCloudImage()));
-		 tagCloudDialog.setSize(new Dimension(lab.getIcon().getIconWidth(),lab.getIcon().getIconHeight()));
+		 tagCloudDialog.setSize(new Dimension(lab.getIcon().getIconWidth(),lab.getIcon().getIconHeight()+50));
 		 tagCloudDialog.add(lab);
 		 tagCloudDialog.setLocation(850,0);
 		// tagCloudDialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		 
-		 JButton h = new JButton("Guardar");
+		 JButton h = new JButton("Save as Image.");
 		 h.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("aloha world");
+				//System.out.println("aloha world");
 				saveTagCloud(lab);
 				
 			}
@@ -378,7 +390,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 				// TODO Auto-generated method stub
 				Date date = new Date();
 	        	  DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-	        	  String imgName = gui.name+"_"+gui.selectedTag+"_"+gui.bm.threshold1+"_"+gui.bm.threshold2+"_"+hourdateFormat.format(date);
+	        	  String imgName = gui.name+"_Node= "+gui.selectedNode+"_"+gui.bm.threshold1+"_"+gui.bm.threshold2+"_"+hourdateFormat.format(date);
 	        	  
 	        	  
 	        	  
@@ -400,7 +412,8 @@ public class CanvasMap extends JPanel implements MouseListener {
 	     	    
 	     	    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 	     	    Graphics2D g = bi.createGraphics();
-	     	    panel.paint(g);
+	     	    lab.getIcon().paintIcon(lab, g, 0, 0);
+	     	   // panel.paint(g);
 	     	    
 	     	    try {
 	     			ImageIO.write(bi, "png", fichero);

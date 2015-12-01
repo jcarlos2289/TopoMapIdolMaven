@@ -84,7 +84,8 @@ public class BuildMap {
 				e2.printStackTrace();
 			}
 		}
-		
+
+		imgTags.clear();
 		// Process all the images and read the tags
 		for (int i=1; i<sequenceLength+1; i++) {
 			fileName=base+i+".txt";
