@@ -1,7 +1,6 @@
 package buildMap;
 
 import java.awt.Color;
-
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,21 +12,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-
-
-
-//import org.jfree.data.category.CategoryDataset;
-//import org.jfree.data.category.DefaultCategoryDataset;
-
 import buildMap.Map.Edge;
 import wordcloud.CollisionMode;
 import wordcloud.WordCloud;
 import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
-
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.palette.ColorPalette;
-import java.io.InputStream;
+
+
+
+//import org.jfree.data.category.CategoryDataset;
+//import org.jfree.data.category.DefaultCategoryDataset;
 
 
 
@@ -421,8 +417,7 @@ public class Node {
 		}
 		return (float) Math.sqrt(dist/wSum);
 	}
-	
-		
+			
 	public double x2(HashMap<String, Float> histo, ImageTags t2) {
 		float dist = 0.0f;
 		String elem;
@@ -440,8 +435,7 @@ public class Node {
 		}
 		return (float) dist;
 	}
-	
-	
+		
 	public double ecludianDistance(HashMap<String, Float> histo, ImageTags t2) {
 		float dist = 0.0f;
 		String elem;
@@ -453,17 +447,15 @@ public class Node {
 		while (iterator.hasNext()) {
 			elem = iterator.next();
 			if (t2.exists(elem)) {
-				//if(histoStanDev.get(elem)== 0)			
-			//	dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0);
-			//	else
+				if(histoVariance.get(elem)== 0)			
+				dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0);
+				else
 					//dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/histoStanDev.get(elem);
 				    dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/  histoVariance.get((elem));
 			}
 		}
 		return (float) Math.sqrt(dist);
 	}
-	
-	
 	
 	public double kullback(HashMap<String, Float> histo, ImageTags t2) {
 		float dist = 0.0f;
@@ -482,8 +474,6 @@ public class Node {
 		}
 		return (float) dist;
 	}
-	
-
 	
 	public double distance(ImageTags img) {
 		if (!useHisto)
@@ -744,9 +734,22 @@ public class Node {
 		return mean10;
 		}
 	
+	public ArrayList<Float> getTopNodesValues(float thre){
+		//order the histoMean
+		ArrayList<Float> mean10 = new ArrayList<Float>();
+		LinkedHashMap<String, Float> sortedByValue = orderHashMap(histoMean, true);
 	
-	
-	
+		//thre=0;
+		//int h = 0;
+		for(Entry<String, Float> e : sortedByValue.entrySet()){
+			if(e.getValue()>thre){
+				mean10.add(e.getValue());
+				}
+			else 
+				break;
+			}
+		return mean10;
+		}
 	
 	private float getTagPresence(ArrayList<String> pattern, ArrayList<String> surface ){
 		int found = 0;
@@ -892,7 +895,7 @@ public class Node {
 				//HashMap<String, Float> tags = new HashMap<String, Float>();
 				HashMap<String, Float> tagForCloud = new HashMap<String, Float>();
 							
-				int h = 0;
+			//	int h = 0;
 				
 				
 				

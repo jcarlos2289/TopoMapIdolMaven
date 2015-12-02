@@ -14,10 +14,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -28,6 +32,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 /*
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -36,6 +44,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;*/
+import com.itextpdf.text.pdf.PdfWriter;
 
 
 
@@ -220,7 +229,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 					}
 				}
 				
-				//gui.selectTagChanged=false;
+				gui.selectTagChanged=false;
 								
 				
 			}
@@ -229,6 +238,115 @@ public class CanvasMap extends JPanel implements MouseListener {
 		
 		//para thTag Mode
 		if(gui.thTagMode && gui.mapGenerated ){
+			if(gui.selectTagChanged && !gui.selectedTag.equals(null) && gui.thTag>=0){
+				//Proceso para mostrar los highTags
+				
+				 ArrayList<ArrayList<String>> aux2 = new ArrayList<ArrayList<String>>();
+			     ArrayList<ArrayList<Float>> auxFloat = new ArrayList<ArrayList<Float>>();
+				
+				for(Node n:gui.bm.map.nodes){
+					  aux2.add(n.getTopNodes((float)gui.thTag));
+				      auxFloat.add(n.getTopNodesValues((float)gui.thTag));
+				}
+				
+				
+				ArrayList<Integer> foundTags = new ArrayList<Integer>();
+				ArrayList<Integer> foundTagsNode = new ArrayList<Integer>();
+				
+				int z = 0;
+				for (ArrayList<String> listaTags : aux2) {
+					if(!listaTags.isEmpty()){
+						if(listaTags.contains(gui.selectedTag)){
+							int h = listaTags.indexOf(gui.selectedTag);
+							foundTags.add(h);
+							foundTagsNode.add(z);
+						}
+				}
+					++z;
+				}
+				
+				if(!foundTags.isEmpty()){
+				//ArrayList<Float> foundValues = new ArrayList<Float>();
+				//ArrayList<Float> foundValuesOrder = new ArrayList<Float>();
+
+				for (int i = 0; i < foundTagsNode.size(); i++) {
+					//foundValues.add(auxFloat.get(foundTagsNode.get(i)).get(foundTags.get(i)));
+					//foundValuesOrder.add(auxFloat.get(foundTagsNode.get(i)).get(foundTags.get(i)));
+					int max = aux2.get(foundTagsNode.get(i)).size();
+					int min = 0;
+					Color heatColor = produceHeatColor(max-(foundTags.get(i)-min), min, max);
+					g.setColor(heatColor);
+					x=(int)(zoomFactor*(gui.bm.map.nodes.get(foundTagsNode.get(i)).representative.xcoord-xmean)+xdesp);
+					y=(int)(-zoomFactor*(gui.bm.map.nodes.get(foundTagsNode.get(i)).representative.ycoord-ymean)+ydesp);
+			        //g.drawOval(x, y, radius, radius);
+			        //g.setColor(new Color(251,255,97));
+			        g.drawOval(x, y, radius, radius);
+			        g.fillOval(x, y, radius, radius);
+					 
+					
+					
+					
+				}
+				
+				 g.setColor(Color.BLACK);
+			        
+			        Font oldFont=getFont();
+			       // Font fuente=new Font("Monospaced", Font.PLAIN, 10);
+			      //  g.setFont(fuente);
+			       // g.drawString(String.valueOf(h), x+1, y+10);
+			        g.setFont(oldFont);
+			        g.drawString(gui.selectedTag, 223, 30);
+				
+				//Collections.sort(foundValuesOrder); //ordena de menor a mayor
+				
+				
+				
+				//float max = foundValuesOrder.get(foundValuesOrder.size()-1);
+				//float min = foundValuesOrder.get(0);
+				
+							
+				
+				
+				
+				
+				
+				
+				
+				
+					
+				}	
+					
+				   /*ArrayList<String> aux;
+				    *  aux = n.getTopNodes((float)gui.thTag);
+					if(!aux.isEmpty()){
+						if(aux.contains(gui.selectedTag)){
+							x=(int)(zoomFactor*(n.representative.xcoord-xmean)+xdesp);
+							y=(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp);
+					        g.drawOval(x, y, radius, radius);
+					        g.setColor(new Color(251,255,97));
+					        g.drawRect(x, y, radius, radius);
+					        g.fillRect(x, y, radius, radius);
+					        int h = aux.indexOf(gui.selectedTag)+1;
+					        g.setColor(Color.BLACK);
+					        
+					        Font oldFont=getFont();
+					        Font fuente=new Font("Monospaced", Font.PLAIN, 10);
+					        g.setFont(fuente);
+					        g.drawString(String.valueOf(h), x+1, y+10);
+					        g.setFont(oldFont);
+					        g.drawString(gui.selectedTag, 223, 30);
+				        
+				        
+					}
+				}*/
+				
+				//gui.selectTagChanged=false;	
+			}
+		}
+		
+		
+		/*Original
+		 * 	if(gui.thTagMode && gui.mapGenerated ){
 			if(gui.selectTagChanged && !gui.selectedTag.equals(null) && gui.thTag>=0){
 				//Proceso para mostrar los highTags
 				
@@ -258,11 +376,22 @@ public class CanvasMap extends JPanel implements MouseListener {
 					}
 				}
 				}
-							
+				gui.selectTagChanged=false;				
 			}
 		}
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
 		
 		
+		
+		
+	        //Recorro para encontrar el mayor
+	        //Recorro para ver en quje nodo esta el tag
+	        //busco su indice y uso el valor para generar la escala termica
+	        //guardo solo las coordenadas del nodo y su color para despues de solo pintarlo
 		
 		
 		
@@ -329,6 +458,48 @@ public class CanvasMap extends JPanel implements MouseListener {
 		//}
 	}
 	
+	private Color produceHeatColor(float v, float vmin, float vmax) {
+		// TODO Auto-generated method stub
+		
+		Color c = new Color(1,1,1); // white
+		   double dv;
+		   double r=1, g=1, b=1;
+
+		   if (v < vmin)
+		      v = vmin;
+		   if (v > vmax)
+		      v = vmax;
+		   dv = vmax - vmin;
+
+		   if (v < (vmin + 0.25 * dv)) {
+		     r = 0;
+		      g = 4 * (v - vmin) / dv;
+		   } else if (v < (vmin + 0.5 * dv)) {
+		     r = 0;
+		      b = 1 + 4 * (vmin + 0.25 * dv - v) / dv;
+		   } else if (v < (vmin + 0.75 * dv)) {
+		      r = 4 * (v - vmin - 0.5 * dv) / dv;
+		     b = 0;
+		   } else {
+		     g = 1 + 4 * (vmin + 0.75 * dv - v) / dv;
+		      b = 0;
+		   }
+		/*   System.out.println("------------------------");
+		   System.out.println(Math.round(r*255));
+		   System.out.println(Math.round(g*255));
+		   System.out.println(Math.round(b*255));
+		   System.out.println("------------------------");*/
+		   int ir = (int) Math.round(r*255);
+		   int ig = (int) Math.round(g*255);
+		   int ib = (int) Math.round(b*255);
+		   r=1;
+		   g=1;
+		   b=1;
+		   c = new Color(ir,ig,ib);
+		   
+		   return(c);
+		}
+
 	public void showInfo (Node sel) {
 		JLabel textArea, presenceData;
 		JScrollPane scroll, scroll2;
@@ -375,7 +546,71 @@ public class CanvasMap extends JPanel implements MouseListener {
 		// tagCloudDialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		 
-		 JButton h = new JButton("Save as Image.");
+		 JButton pdf = new JButton("Save as pdf");
+		 pdf.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					//System.out.println("aloha world");
+					try {
+						savePDFTagCloud(lab);
+					} catch (DocumentException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+
+				private void savePDFTagCloud(JLabel lab) throws DocumentException, IOException {
+					// TODO Auto-generated method stub
+					Date date = new Date();
+		        	  DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		        	  String imgName = gui.name+"_Node= "+gui.selectedNode+"_"+gui.bm.threshold1+"_"+gui.bm.threshold2+"_"+hourdateFormat.format(date);
+		        	  
+		        	  
+		        	  
+		        	 JPanel panel = new JPanel();
+		      		panel.add(lab);
+		     		// File miDir = new File(".");
+		     	    // String c = miDir.getAbsolutePath();
+
+		     	     //elimino el punto (.) nombre del archivo(virtual) que cree para obtener la ruta de la carpeta del proyecto
+		     	   //  String ruta = c.substring(0, c.length() - 1);
+		           //   ruta += "resultados/" + imgName.trim() + ".png";
+		     		
+		     		//File fichero = new File(ruta);
+		     	    int w = panel.getWidth();
+		     	    int h = panel.getHeight();
+		     	    
+		     	    w= lab.getIcon().getIconWidth();
+		     	    h= lab.getIcon().getIconHeight();
+		     	    
+		     	    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		     	    Graphics2D g = bi.createGraphics();
+		     	    lab.getIcon().paintIcon(lab, g, 0, 0);
+		     	    
+		     	    Image imagen = Image.getInstance(bi,null);
+		     	    
+		     	      Document document = new Document();
+		     	        //document.setPageSize(PageSize.A5);
+		     	        document.setPageSize(new com.itextpdf.text.Rectangle(w,h));
+		     	       document.setMargins(0, 0, 0, 0);
+		     	      //  document.setMargins(36, 72, 108, 180);
+		     	        // step 2
+		     	        PdfWriter.getInstance(document, new FileOutputStream("resultados/" + imgName.trim() + "pdf"));
+		     	        // step 3
+		     	        document.open();
+		     	        // step 4
+		     	        // document.add(new Paragraph("Hello World"));
+		     	        document.add(imagen);
+		     	        // step 5
+		     	        document.close();
+		     	    
+				}
+			});
+		 
+		 JButton h = new JButton("Save as Image");
 		 h.addActionListener(new ActionListener() {
 			
 			@Override
@@ -428,6 +663,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 		
 		 JPanel f = new JPanel();
 		 f.add(h);
+		 f.add(pdf);
 		 f.add(lab);
 		 tagCloudDialog.add(f);
 		 tagCloudDialog.setVisible(true);
@@ -505,14 +741,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 	      
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	/*
 	public void  createChart(Node sel){
 		
@@ -555,10 +784,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 		
 		
 	}*/
-	
-	
-	
-	
+		
 	public void mousePressed(MouseEvent evt) {
 		Node sel=null;
 		
@@ -589,9 +815,6 @@ public class CanvasMap extends JPanel implements MouseListener {
 		}
 	}
 	
-	
-	
-
 	public void mouseClicked (MouseEvent evt) {
 	}
 	public void mouseReleased(MouseEvent e) {
@@ -601,10 +824,4 @@ public class CanvasMap extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 	}
 
-	
-	
-	
-	
-	
-	
 }
