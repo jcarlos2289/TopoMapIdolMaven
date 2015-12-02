@@ -442,6 +442,28 @@ public class Node {
 	}
 	
 	
+	public double ecludianDistance(HashMap<String, Float> histo, ImageTags t2) {
+		float dist = 0.0f;
+		String elem;
+		Set<String> hs1;
+		Iterator<String> iterator;
+			
+		hs1 = histo.keySet();
+		iterator = hs1.iterator();
+		while (iterator.hasNext()) {
+			elem = iterator.next();
+			if (t2.exists(elem)) {
+				//if(histoStanDev.get(elem)== 0)			
+			//	dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0);
+			//	else
+					//dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/histoStanDev.get(elem);
+				    dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/  histoVariance.get((elem));
+			}
+		}
+		return (float) Math.sqrt(dist);
+	}
+	
+	
 	
 	public double kullback(HashMap<String, Float> histo, ImageTags t2) {
 		float dist = 0.0f;

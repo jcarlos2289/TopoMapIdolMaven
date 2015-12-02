@@ -28,7 +28,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
 
 public class Gui extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -7457350242559078527L;
@@ -46,15 +48,19 @@ public class Gui extends JFrame implements ActionListener {
 	int selectedNode = -1 ;
 	String selectedTag = null;
 	
+	String dataSetPath="/home/jcarlos2289/Descargas/";
+	
 	BuildMap bm;
 	Kmeans km;
 	String name ;
 	
 	 JMenu jmOperations, jmShows;
-	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap;
+	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps;
      JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB, highTagsCB, thTagsCB;
      JMenu jMDataSet,jMSunny,jMCloudy, jMNight;
      JMenuItem jmiCl_1, jmiCl_2, jmiCl_3, jmiCl_4, jmiNi_1, jmiNi_2, jmiNi_3, jmiNi_4, jmiSu_1, jmiSu_2, jmiSu_3, jmiSu_4;
+     
+     JLabel statusLabel;
 	
 	public Gui() {
 		threshold1 = 0.001;
@@ -216,10 +222,27 @@ public class Gui extends JFrame implements ActionListener {
 		//setTitle("Topological Mapping");
 		getContentPane().add(cm, BorderLayout.CENTER);
 		getContentPane().add(getToolBar(), BorderLayout.NORTH);
+		getContentPane().add(getStatusBar(), BorderLayout.SOUTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
 		
 		
+	}
+	
+	
+	public JPanel getStatusBar(){
+		JPanel statusPanel = new JPanel();
+		statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		//frame.add(statusPanel, BorderLayout.SOUTH);
+		
+		//statusPanel.setPreferredSize(new Dimension(frame.getWidth(), 16));
+		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
+		statusLabel = new JLabel("ABToMap 1");
+		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		statusPanel.add(statusLabel);
+		
+		
+		return statusPanel;
 	}
 
 	public JPanel getToolBar() {
@@ -246,6 +269,10 @@ public class Gui extends JFrame implements ActionListener {
 	        jmiCapture.addActionListener(this);
 	        jmiCapture.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
 	        jmOperations.add(jmiCapture);
+	        
+	        jmiGenAllMaps = new JMenuItem("Gen 12 Idol Maps");
+	        jmiGenAllMaps.addActionListener(this);
+	        jmOperations.add(jmiGenAllMaps);
 
 	        jmShows = new JMenu("View");
 	        
@@ -544,6 +571,193 @@ public class Gui extends JFrame implements ActionListener {
 		g.setLocationRelativeTo(null);
 		 g.setVisible(true);
 	     g.toFront();
+	     
+	     
+	    
+	     
+	   //---------------------------------------Generacion completa de los mapas-----------------------------------------
+	       /*
+	        Date date = new Date();
+	        DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        String imgName;
+	        float th1 = (float) 0.001;
+	        float th2 = (float) 0.015;
+	       
+	        g.bm.setThreshold1(th1);
+	        g.bm.setThreshold2(th2);
+	        g.bm.setCutNode(15);
+	        DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+	        simbol.setDecimalSeparator('.');
+	        DecimalFormat formateador = new DecimalFormat("####.####",simbol);
+	       
+	        /*
+	        //g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        date = new Date();
+	        imgName = g.name+"_"+g.bm.threshold1+"_"+g.bm.threshold2+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+	        */
+	       
+	       
+
+	        //Cloudy
+	        //1
+/*	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
+	        g.name= "MinnieCloudy1_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //2
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
+	        g.name= "MinnieCloudy2_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+   
+	        //3
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_", -0.00000001, 894, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, 5, 2000000000);
+	        g.name= "MinnieCloudy3_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+	        
+	        //4
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_", -0.00000001, 975, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, 5, 2000000000);
+	        g.name= "MinnieCloudy4_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	       
+	        //Night
+	        //1
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/min_night1_HybridAlexNet/IDOL_MINNIE_Ni1_", -0.00000001, 1039, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/IDOL_MINNIE_Ni1.txt",1183, 5, 2000000000);
+	        g.name= "MinnieNight1_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //2
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", -0.00000001, 1181, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, 5, 2000000000);
+	        g.name= "MinnieNight2_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //3
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
+	        g.name= "MinnieNight3_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //4
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
+	        g.name= "MinnieNight4_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //Sunny
+	        //1       
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
+	        g.name= "MinnieSunny1_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+        
+	        //2
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
+	        g.name= "MinnieSunny2_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //3
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
+	        g.name= "MinnieSunny3_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	        //4
+	        g.bm.readTags(g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, g.dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
+	        g.name= "MinnieSunny4_HybridAlexNet";
+	        g.bm.buildMap();
+	        g.mapGenerated = true;
+	        g.original=false;
+	        g.cm.repaint();
+	        date = new Date();
+	        imgName = g.name+"_"+formateador.format(g.bm.threshold1)+"_"+formateador.format(g.bm.threshold2)+"_"+hourdateFormat.format(date);
+	        g.cm.createImage(imgName);
+
+	       
+	
+	       
+	        g.dispose();
+	          
+	       
+	       
+	        //FIN
+	        //---------------------------------------Generacion completa de los mapas-----------------------------------------   
+	                   
+
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
 		
 		// Each tag contains a name and probability assigned to it by the recognition engine.
         //System.out.println(String.format("  %s (%.4f)", tag.getName(), tag.getProbability()));
@@ -905,16 +1119,28 @@ public class Gui extends JFrame implements ActionListener {
 	  			tagMode =true;
 	  			mapGenerated = true;
 	  			cm.repaint();
+	  			Date date = new Date();
+	        	DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss");
+	        	//  String imgName = name+"_"+bm.threshold1+"_"+bm.threshold2+"_"+hourdateFormat.format(date);
+	  			statusLabel.setText("Map for : "+name+" generated at: "+hourdateFormat.format(date));
 	  			//cm.showNodeDetails();
 	  			//cm.showMapInfo();
 	            return;
 	        }
+	          
+	          if (e.getSource()==jmiGenAllMaps){
+	        	  statusLabel.setText("Generating all sequences maps in process...");
+	        	  generate12ImagesMaps();
+	        	 statusLabel.setText("Generation of all Sequence Maps Ended.");
+	        	  return;
+	          }
 	          
 	          if (e.getSource() == jmiCapture) {
 	        	  Date date = new Date();
 	        	  DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 	        	  String imgName = name+"_"+bm.threshold1+"_"+bm.threshold2+"_"+hourdateFormat.format(date);
 		  			cm.createImage(imgName);
+		  			statusLabel.setText(imgName +" saved.");
 		  			return;
 		  		}
 	          
@@ -958,35 +1184,39 @@ public class Gui extends JFrame implements ActionListener {
 	  		//Cloudy
 	  		if(e.getSource() == jmiCl_1){
 	  			//Cloudy
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
 	  			name= "MinnieCloudy1_HybridAlexNet";
 	  			setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
 	  			return;
 	  		}
 	          
 	  		if(e.getSource() == jmiCl_2){
 	  			//cm = new CanvasMap(this);
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
 	  			name= "MinnieCloudy2_HybridAlexNet";
 	  		 	setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
 	  			return;
 	  		}
 	  		
 	  		if(e.getSource() == jmiCl_3){
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_", -0.00000001, 894, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_", -0.00000001, 894, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, 5, 2000000000);
 	  			name= "MinnieCloudy3_HybridAlexNet";
 	  		 	setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
 	  			return;
 	  		}
 	  		
 	  		if(e.getSource() == jmiCl_4){
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_", -0.00000001, 975, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_", -0.00000001, 975, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, 5, 2000000000);
 	  			name= "MinnieCloudy4_HybridAlexNet";
 	  		 	setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
 	  			return;
 	  		}
 	        
@@ -994,15 +1224,16 @@ public class Gui extends JFrame implements ActionListener {
 	  		if(e.getSource() == jmiNi_1){
 
 	  			//Night
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night1/min_night1_HybridAlexNet/IDOL_MINNIE_Ni1_", -0.00000001, 1039, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night1/IDOL_MINNIE_Ni1.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/min_night1_HybridAlexNet/IDOL_MINNIE_Ni1_", -0.00000001, 1039, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/IDOL_MINNIE_Ni1.txt",1183, 5, 2000000000);
 	  			name= "MinnieNight1_HybridAlexNet";
 	  		 	setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 return;
             }
               
             if(e.getSource() == jmiNi_2){
-            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", -0.00000001, 1181, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, 5, 2000000000);
+            	bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", -0.00000001, 1181, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, 5, 2000000000);
 	  			name= "MinnieNight2_HybridAlexNet";
             	setTitle(name);      
             	cm.repaint();
@@ -1011,10 +1242,11 @@ public class Gui extends JFrame implements ActionListener {
             }
             
             if(e.getSource() == jmiNi_3){
-            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
+            	bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
 	  			name= "MinnieNight3_HybridAlexNet";
 	  		 	setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 return;
             }
            
@@ -1022,10 +1254,11 @@ public class Gui extends JFrame implements ActionListener {
                 //bm.readtags
                 //gui,settittle
                 //name=
-                bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
+                bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
         		name= "MinnieNight4_HybridAlexNet";
             	setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 return;
             }
 	        //Sunny
@@ -1034,39 +1267,215 @@ public class Gui extends JFrame implements ActionListener {
 
 	  			//Sunny
 	  					
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
 	  			name= "MinnieSunny1_HybridAlexNet";
 	  			setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 return;
             }
               
             if(e.getSource() == jmiSu_2){
-            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
+            	bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
 	  			name= "MinnieSunny2_HybridAlexNet";
 	  			setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 
                 return;
             }
             
             if(e.getSource() == jmiSu_3){
-            	bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
+            	bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
 	  			name= "MinnieSunny3_HybridAlexNet";
 	  			setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 
                 return;
             }
             
             if(e.getSource() == jmiSu_4){
 			
-	  			bm.readTags("/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, "/home/jcarlos2289/Descargas/KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
+	  			bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
 	  			name= "MinnieSunny4_HybridAlexNet";
 	  			setTitle(name);      
             	cm.repaint();
+            	statusLabel.setText("Sequence : "+name+" selected.");
                 return;
             }
+		
+		
+	}
+
+	private void generate12ImagesMaps() {
+		// TODO Auto-generated method stub
+		
+		    Date date = new Date();
+	        DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        String imgName;
+	        float thr1 = (float) 0.001;
+	        float thr2 = (float) 0.015;
+	        int cn =15;
+	        
+	        thr1 = Float.parseFloat(th1.getText());
+	        thr2 = Float.parseFloat(th2.getText());
+	        cn = Integer.parseInt(th3.getText());
+	       
+	        bm.setThreshold1(thr1);
+	        bm.setThreshold2(thr2);
+	        bm.setCutNode(cn);
+	        DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+	        simbol.setDecimalSeparator('.');
+	        DecimalFormat formateador = new DecimalFormat("####.####",simbol);
+	       
+	        /*
+	        //bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        date = new Date();
+	        imgName = name+"_"+bm.threshold1+"_"+bm.threshold2+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+	        */
+	       
+	       
+
+	        //Cloudy
+	        //1
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", -0.00000001, 915, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, 5, 2000000000);
+	        name= "MinnieCloudy1_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //2
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
+	        name= "MinnieCloudy2_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //3
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_", -0.00000001, 894, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, 5, 2000000000);
+	        name= "MinnieCloudy3_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+	        
+	        //4
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_", -0.00000001, 975, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, 5, 2000000000);
+	        name= "MinnieCloudy4_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	       
+	        //Night
+	        //1
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/min_night1_HybridAlexNet/IDOL_MINNIE_Ni1_", -0.00000001, 1039, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/IDOL_MINNIE_Ni1.txt",1183, 5, 2000000000);
+	        name= "MinnieNight1_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //2
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", -0.00000001, 1181, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, 5, 2000000000);
+	        name= "MinnieNight2_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //3
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
+	        name= "MinnieNight3_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //4
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
+	        name= "MinnieNight4_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //Sunny
+	        //1       
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
+	        name= "MinnieSunny1_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+     
+	        //2
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
+	        name= "MinnieSunny2_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //3
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
+	        name= "MinnieSunny3_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+
+	        //4
+	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
+	        name= "MinnieSunny4_HybridAlexNet";
+	        bm.buildMap();
+	        mapGenerated = true;
+	        original=false;
+	        cm.repaint();
+	        date = new Date();
+	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
+	        cm.createImage(imgName);
+		
 		
 		
 	}
