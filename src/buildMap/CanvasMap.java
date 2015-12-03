@@ -203,6 +203,44 @@ public class CanvasMap extends JPanel implements MouseListener {
 			if(gui.selectTagChanged && !gui.selectedTag.equals(null)){
 				//Proceso para mostrar los highTags
 				
+			
+				
+			//	ArrayList<String> aux;
+				ArrayList<Float> values = new ArrayList<Float>();
+			//	ArrayList<Float> valuesOrder = new ArrayList<Float>();
+				for(Node n:gui.bm.map.nodes){
+					values.add(n.histoMean.get(gui.selectedTag));
+				}
+				Collections.sort(values);
+				
+				float max = values.get(values.size()-1);
+				float min = values.get(0);
+				
+				
+				for(Node n:gui.bm.map.nodes){
+					values.add(n.histoMean.get(gui.selectedTag));
+					g.setColor(produceHeatColor(n.histoMean.get(gui.selectedTag), min, max));
+					x=(int)(zoomFactor*(n.representative.xcoord-xmean)+xdesp);
+					y=(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp); 
+					g.drawOval(x, y, radius, radius);
+				    g.fillOval(x, y, radius, radius);
+				}
+				
+				 g.setColor(Color.BLACK);
+			        
+			        Font oldFont=getFont();
+			        g.setFont(oldFont);
+			        g.drawString(gui.selectedTag, 223, 30);
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				/*
 				ArrayList<String> aux;
 				
 				for(Node n:gui.bm.map.nodes){
@@ -229,7 +267,8 @@ public class CanvasMap extends JPanel implements MouseListener {
 				}
 				
 				gui.selectTagChanged=false;
-								
+					*/			
+			       // gui.selectTagChanged=false;
 				
 			}
 		}	
