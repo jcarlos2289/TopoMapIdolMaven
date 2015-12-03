@@ -410,8 +410,7 @@ public class Gui extends JFrame implements ActionListener {
 	        jMDataSet.add(jMSunny);
 
 	        jMenuBar1.add(jMDataSet);
-	        
-	        
+	         
 	        
 
 	        this.setJMenuBar(jMenuBar1);
@@ -923,7 +922,7 @@ public class Gui extends JFrame implements ActionListener {
 				++k;
 				if ((k%100)==0) System.out.println("K="+k);
 			}
-			while(k<=800);
+			while(k<=2);
 			
 				
 			return;
@@ -1138,7 +1137,7 @@ public class Gui extends JFrame implements ActionListener {
 	          if (e.getSource() == jmiCapture) {
 	        	  Date date = new Date();
 	        	  DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-	        	  String imgName = name+"_"+bm.threshold1+"_"+bm.threshold2+"_"+hourdateFormat.format(date);
+	        	  String imgName = name+"_"+bm.threshold1+"_"+bm.threshold2+"_"+bm.cutNode+"_"+hourdateFormat.format(date);
 		  			cm.createImage(imgName);
 		  			statusLabel.setText(imgName +" saved.");
 		  			return;

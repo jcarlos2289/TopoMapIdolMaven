@@ -155,20 +155,20 @@ public class BuildMap {
 			for (int n=0; n<map.getMapSize(); n++) {
 				auxNode=map.getNode(n);
 				if (auxNode!=currentNode) {
-					dist=auxNode.distance(imgTags.get(i));
+					//dist=auxNode.distance(imgTags.get(i));
 					//dist=auxNode.x2(auxNode.histoMean,imgTags.get(i));
 					//dist=auxNode.kullback(auxNode.histoMean,imgTags.get(i));
-					//dist=auxNode.ecludianDistance(auxNode.histoMean,imgTags.get(i));
+					dist=auxNode.ecludianDistance(auxNode.histoMean,imgTags.get(i));
 					if (dist<minDist) {
 						minDist=dist;
 						auxNode2=auxNode;
 					}
 				}
 			}
-			dist = currentNode.distance(imgTags.get(i));
+			//dist = currentNode.distance(imgTags.get(i));
 			//dist = currentNode.x2(currentNode.histoMean,imgTags.get(i));
 			//dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
-			//dist=currentNode.ecludianDistance(currentNode.histoMean,imgTags.get(i));
+			dist=currentNode.ecludianDistance(currentNode.histoMean,imgTags.get(i));
 			//FileMethods.saveFile(String.valueOf(dist)+"\n","Distancias", true);	
 
 			//if(i<loopClose){   //Indicar en que imagen se cierra la primera vuelva, luego de esto solo añade la imagen al nodo q tenga la menor distancia

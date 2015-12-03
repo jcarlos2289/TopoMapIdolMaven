@@ -52,8 +52,7 @@ public class CanvasMap extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1366050590724868148L;
 	Gui gui;
 	ImageIcon img2;
-	double xmean=5.9199204755, ymean=15.7735103837
-;
+	double xmean=5.9199204755, ymean=15.7735103837;
 	double zoomFactor=28;
 	double xdesp, ydesp;
 	
