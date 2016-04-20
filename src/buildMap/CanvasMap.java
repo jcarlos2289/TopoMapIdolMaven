@@ -219,7 +219,8 @@ public class CanvasMap extends JPanel implements MouseListener {
 				
 				for(Node n:gui.bm.map.nodes){
 					values.add(n.histoMean.get(gui.selectedTag));
-					g.setColor(produceHeatColor(n.histoMean.get(gui.selectedTag), min, max));
+					g.setColor(produceHeatColor(n.histoMean.get(gui.selectedTag)  , min, max));
+					//g.setColor(produceHeatColor(((n.histoMean.get(gui.selectedTag)-min)/(max-min))  , 0, 1));
 					x=(int)(zoomFactor*(n.representative.xcoord-xmean)+xdesp);
 					y=(int)(-zoomFactor*(n.representative.ycoord-ymean)+ydesp); 
 					g.drawOval(x, y, radius, radius);

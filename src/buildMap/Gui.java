@@ -1102,6 +1102,25 @@ public class Gui extends JFrame implements ActionListener {
 			}
 	     	         
 	          if (e.getSource() == jmiGenMap) {
+	        	  //original = true;
+	        			  showMap = true;
+	        			  //background = true;
+	        				mapGenerated = false; 
+	        				nodesMode = false; 
+	        				selectNodeChanged = false; 
+	        				showCluster = false; 
+	        				tagMode = false; 
+	        				selectTagChanged = false; 
+	        				thTagMode=false;
+	        		selectedNode = -1 ;
+	        		selectedTag = null;      
+	        	  
+	        	  
+	        	  
+	        	  
+	        	  
+	        	  
+	        	  
 	        	graphCB.setEnabled(false);
 	  			showNodesCB.setEnabled(false);
 	  			bm.buildMap();

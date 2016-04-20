@@ -453,7 +453,7 @@ public class Node {
 					//dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/histoStanDev.get(elem);
 				    dist += Math.pow(histo.get(elem) - t2.getValue(elem), 2.0)/  histoVariance.get((elem));
 			}
-		}
+		}//System.out.println(Math.sqrt(dist));
 		return (float) Math.sqrt(dist);
 	}
 	
@@ -468,10 +468,17 @@ public class Node {
 		while (iterator.hasNext()) {
 			elem = iterator.next();
 			if (t2.exists(elem)) {
-				dist +=(histo.get(elem) - t2.getValue(elem))* Math.log(histo.get(elem)/ t2.getValue(elem));
-									
+				if(t2.getValue(elem)!=0 && histo.get(elem)!=0){
+				
+				//System.out.println(histo.get(elem)+"-----------------"+Math.log((double)histo.get(elem)) );
+				//System.out.println(""+t2.getValue(elem) + "   "+histo.get(elem) );
+				dist +=(float) (histo.get(elem) - t2.getValue(elem))* Math.log((double)histo.get(elem)/ t2.getValue(elem));
+				//dist +=(t2.getValue(elem)- histo.get(elem) )* (Math.log( t2.getValue(elem))-Math.log(histo.get(elem)));
+				}	/*else
+					System.out.println(histo.get(elem)+"--------hhhh---------"+Math.log((double)histo.get(elem)) );*/
+					
 			}
-		}
+		}System.out.println(dist);
 		return (float) dist;
 	}
 	
