@@ -12,6 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import buildMap.Map.Edge;
 import wordcloud.CollisionMode;
 import wordcloud.WordCloud;
@@ -469,18 +471,115 @@ public class Node {
 			elem = iterator.next();
 			if (t2.exists(elem)) {
 				if(t2.getValue(elem)!=0 && histo.get(elem)!=0){
-				
 				//System.out.println(histo.get(elem)+"-----------------"+Math.log((double)histo.get(elem)) );
 				//System.out.println(""+t2.getValue(elem) + "   "+histo.get(elem) );
 				dist +=(float) (histo.get(elem) - t2.getValue(elem))* Math.log((double)histo.get(elem)/ t2.getValue(elem));
 				//dist +=(t2.getValue(elem)- histo.get(elem) )* (Math.log( t2.getValue(elem))-Math.log(histo.get(elem)));
-				}	/*else
-					System.out.println(histo.get(elem)+"--------hhhh---------"+Math.log((double)histo.get(elem)) );*/
+				}	else
+			           FileMethods.saveFile("Tag: "+ elem +"\t\tHisto Value:"+String.valueOf(histo.get(elem))+"\t\t\t\tImageValue: "+String.valueOf(t2.getValue(elem)+"\n"),"ValoresTags", true);
+					
+					
+					//System.out.printf("Histo Value:%.8f\t\t\t\t\t", histo.get(elem)+"--------hhhh---------"+Math.log((double)histo.get(elem)) );
 					
 			}
 		}System.out.println(dist);
 		return (float) dist;
 	}
+	
+	
+	
+	 public double jensenShannonDivergence(HashMap<String, Float> histo,  ImageTags t2) {
+		// HashMap<String, Float> histo = new HashMap<String,Float>();
+		 HashMap<String, Float> averag = new HashMap<String,Float>();
+		// ImageTags t2 = new ImageTags("");
+		 HashMap<String, Float> image = new HashMap<String,Float>();
+		 
+		// ConcurrentHashMap<String, Float> i = t2.tags;
+		 
+		 image.putAll(t2.tags);
+		 
+		 assert(image.size()== histo.size());
+		// double[] average = new double[p1.length];
+
+
+		 Set<String> hs1;
+		 hs1 = histo.keySet();
+		 Iterator<String> iterator;
+		 iterator = hs1.iterator();
+		 
+		 while (iterator.hasNext()) {
+			 String  tag = iterator.next();
+			 averag.put(tag, (histo.get(tag)+image.get(tag))/2);
+		 }
+
+
+		/* for (int i = 0; i < p1.length; ++i) {
+			 average[i] += (p1[i] + p2[i])/2;
+		 }*/
+		 
+		 
+		 //return (klDivergence1(p1, average) + klDivergence1(p2, average))/2;
+		 return (klDivergence(histo, averag) + klDivergence(image, averag))/2;
+	    }
+	
+	
+	
+	 public static double klDivergence1(double[] p1, double[] p2) {
+
+
+	      double klDiv = 0.0;
+
+	      for (int i = 0; i < p1.length; ++i) {
+	        if (p1[i] == 0) { continue; }
+	        if (p2[i] == 0.0) { continue; } // Limin
+
+	      klDiv += p1[i] * Math.log( p1[i] / p2[i] );
+	      }
+
+	      return klDiv / Math.log(2); // moved this division out of the loop -DM
+	    }
+	 
+	 public double klDivergence(HashMap<String, Float> p_1, HashMap<String, Float> p_2) {
+		 
+		 
+		//// HashMap<String, Float> p_1 = new HashMap<String,Float>();
+		// HashMap<String, Float> p_2 = new HashMap<String,Float>();
+
+		 double klDiv = 0.0;
+
+		 Set<String> hs1;
+		 hs1 = p_1.keySet();
+		 Iterator<String> iterator;
+		 iterator = hs1.iterator();
+
+		 while (iterator.hasNext()) {
+			 String  tag = iterator.next();
+			 if (p_1.get(tag) == 0){continue;}
+			 if (p_2.get(tag) == 0.0){continue;} // Limin
+			 
+			 klDiv += p_1.get(tag) * Math.log( p_1.get(tag) / p_2.get(tag) );
+			}
+
+
+		 /*for (int i = 0; i < p1.length; ++i) {
+			 if (p1[i] == 0) { continue; }
+			 if (p2[i] == 0.0) { continue; } // Limin
+
+			 klDiv += p1[i] * Math.log( p1[i] / p2[i] );
+		 }*/
+		 double h = klDiv / Math.log(2);
+		 System.out.printf("Dist JS: %.6f\n",h);
+		 
+		 return h; // moved this division out of the loop -DM
+	    }
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public double distance(ImageTags img) {
 		if (!useHisto)

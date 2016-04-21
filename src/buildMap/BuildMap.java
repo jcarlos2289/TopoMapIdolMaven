@@ -157,7 +157,8 @@ public class BuildMap {
 				if (auxNode!=currentNode) {
 					//dist=auxNode.distance(imgTags.get(i));
 					//dist=auxNode.x2(auxNode.histoMean,imgTags.get(i));
-					dist=auxNode.kullback(auxNode.histoMean,imgTags.get(i));
+					//dist=auxNode.kullback(auxNode.histoMean,imgTags.get(i));
+					dist=auxNode.jensenShannonDivergence(auxNode.histoMean,imgTags.get(i));
 					//dist=auxNode.ecludianDistance(auxNode.histoMean,imgTags.get(i));
 					if (dist<minDist) {
 						minDist=dist;
@@ -167,7 +168,8 @@ public class BuildMap {
 			}
 			//dist = currentNode.distance(imgTags.get(i));
 			//dist = currentNode.x2(currentNode.histoMean,imgTags.get(i));
-			dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
+			//dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
+			dist = currentNode.jensenShannonDivergence(currentNode.histoMean,imgTags.get(i));
 			//dist=currentNode.ecludianDistance(currentNode.histoMean,imgTags.get(i));
 			//FileMethods.saveFile(String.valueOf(dist)+"\n","Distancias", true);	
 			//System.out.println(dist);
