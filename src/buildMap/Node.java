@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 import buildMap.Map.Edge;
 import wordcloud.CollisionMode;
@@ -470,7 +470,7 @@ public class Node {
 		while (iterator.hasNext()) {
 			elem = iterator.next();
 			if (t2.exists(elem)) {
-				if(t2.getValue(elem)!=0 && histo.get(elem)!=0){
+				if(t2.getValue(elem)!=0 && histo.get(elem)!=0){   // asignar el double.min 
 				//System.out.println(histo.get(elem)+"-----------------"+Math.log((double)histo.get(elem)) );
 				//System.out.println(""+t2.getValue(elem) + "   "+histo.get(elem) );
 				dist +=(float) (histo.get(elem) - t2.getValue(elem))* Math.log((double)histo.get(elem)/ t2.getValue(elem));

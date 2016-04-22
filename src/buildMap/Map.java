@@ -292,6 +292,172 @@ public class Map {
 		return metric;
 	}
 	
+	public void getEdgesInformation(){
+		if(edges != null){
+			FileMethods.saveFile("", "EdgesDataPath", true);
+			for(Edge ed : edges){
+				int sizeA, sizeB;
+				sizeA = ed.a.images.size();
+				sizeB = ed.b.images.size();
+				
+				ArrayList<String> imagesA = new ArrayList<String>();
+				ArrayList<String> imagesB = new ArrayList<String>();
+				ArrayList<String> imagesT = new ArrayList<String>();
+				
+				int aMiddle, bMiddle;
+				
+				aMiddle=sizeA/2;
+				bMiddle=sizeB/2;
+				
+				if(sizeA>3){
+					imagesA.add(ed.a.images.get(aMiddle-1).imageName);
+					imagesA.add(ed.a.images.get(aMiddle).imageName);
+					imagesA.add(ed.a.images.get(aMiddle+1).imageName);
+					
+				}else{
+					imagesA.add("-");
+					imagesA.add(ed.a.images.get(aMiddle).imageName);
+					imagesA.add("-");
+				}
+					
+				
+				
+				if(sizeB>3){
+					imagesB.add(ed.b.images.get(bMiddle-1).imageName);
+					imagesB.add(ed.b.images.get(bMiddle).imageName);
+					imagesB.add(ed.b.images.get(bMiddle+1).imageName);
+					
+				}
+				else{
+					imagesB.add("-");
+					imagesB.add(ed.b.images.get(bMiddle).imageName);
+					imagesB.add("-");
+				}
+				
+				imagesT.add(ed.a.images.get(sizeA-1).imageName);
+				imagesT.add(ed.b.images.get(0).imageName);
+				
+				String cadTex;
+				
+				cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+"\t";
+				
+                for (String st : imagesA) {
+					cadTex+=st +" ";
+				}
+				cadTex+="\t\t";
+                
+				for (String st : imagesT) {
+					cadTex+=st +" ";
+				}
+                
+                
+				cadTex+="\t\t";
+                
+				for (String st : imagesB) {
+					cadTex+=st +" ";
+				}
+				cadTex+="\n";
+				
+				FileMethods.saveFile(cadTex, "EdgesDataPath", true);
+				
+			}
+		}
+		
+		
+		if(edges != null){
+			FileMethods.saveFile("", "EdgesData", true);
+			for(Edge ed : edges){
+				int sizeA, sizeB;
+				sizeA = ed.a.images.size();
+				sizeB = ed.b.images.size();
+				
+				ArrayList<String> imagesA = new ArrayList<String>();
+				ArrayList<String> imagesB = new ArrayList<String>();
+				ArrayList<String> imagesT = new ArrayList<String>();
+				
+				int aMiddle, bMiddle;
+				
+				aMiddle=sizeA/2;
+				bMiddle=sizeB/2;
+				
+				if(sizeA>3){
+					String[] name;
+					name = ed.a.images.get(aMiddle-1).imageName.split("/");
+					imagesA.add(name[name.length-1]);
+					
+					name = ed.a.images.get(aMiddle).imageName.split("/");
+					imagesA.add(name[name.length-1]);
+					
+					name = ed.a.images.get(aMiddle+1).imageName.split("/");
+					imagesA.add(name[name.length-1]);
+					
+					
+					
+				}else{
+					imagesA.add("-");
+					String[] name;
+					name = ed.a.images.get(aMiddle).imageName.split("/");
+					imagesA.add(name[name.length-1]);
+					imagesA.add("-");
+				}
+					
+				
+				
+				if(sizeB>3){
+					String[] name;
+					name = ed.b.images.get(bMiddle-1).imageName.split("/");
+					imagesB.add(name[name.length-1]);
+					
+					name = ed.b.images.get(bMiddle).imageName.split("/");
+					imagesB.add(name[name.length-1]);
+					
+					name = ed.b.images.get(bMiddle+1).imageName.split("/");
+					imagesB.add(name[name.length-1]);
+					
+					
+					
+				}else{
+					imagesB.add("-");
+					String[] name;
+					name = ed.b.images.get(bMiddle).imageName.split("/");
+					imagesB.add(name[name.length-1]);
+					imagesB.add("-");
+				}
+				
+				
+				String[] name;
+				name = ed.a.images.get(sizeA-1).imageName.split("/");
+				imagesT.add(name[name.length-1]);
+				name = ed.b.images.get(0).imageName.split("/");
+				imagesT.add(name[name.length-1]);
+				
+				String cadTex;
+				
+				cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+"\t";
+				
+                for (String st : imagesA) {
+					cadTex+=st +" ";
+				}
+				cadTex+="\t\t";
+                
+				for (String st : imagesT) {
+					cadTex+=st +" ";
+				}
+                
+                
+				cadTex+="\t\t";
+                
+				for (String st : imagesB) {
+					cadTex+=st +" ";
+				}
+				cadTex+="\n";
+				
+				FileMethods.saveFile(cadTex, "EdgesData", true);
+				
+			}
+			}
+	}
+	
 	public String getMapInfo(String name, String th1, String th2, String cutNode){
 		
 				ArrayList<Integer> classCount = new ArrayList<Integer>();

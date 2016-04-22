@@ -55,7 +55,7 @@ public class Gui extends JFrame implements ActionListener {
 	String name ;
 	
 	 JMenu jmOperations, jmShows;
-	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps;
+	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps, jmiTransInfo;
      JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB, highTagsCB, thTagsCB;
      JMenu jMDataSet,jMSunny,jMCloudy, jMNight;
      JMenuItem jmiCl_1, jmiCl_2, jmiCl_3, jmiCl_4, jmiNi_1, jmiNi_2, jmiNi_3, jmiNi_4, jmiSu_1, jmiSu_2, jmiSu_3, jmiSu_4;
@@ -273,6 +273,11 @@ public class Gui extends JFrame implements ActionListener {
 	        jmiGenAllMaps = new JMenuItem("Gen 12 Idol Maps");
 	        jmiGenAllMaps.addActionListener(this);
 	        jmOperations.add(jmiGenAllMaps);
+	        
+	        jmiTransInfo= new JMenuItem("Get Edges Information");
+	        jmiTransInfo.addActionListener(this);
+	        jmOperations.add(jmiTransInfo);
+	        
 
 	        jmShows = new JMenu("View");
 	        
@@ -1322,6 +1327,11 @@ public class Gui extends JFrame implements ActionListener {
             	statusLabel.setText("Sequence : "+name+" selected.");
                 return;
             }
+            
+            if(e.getSource()==jmiTransInfo){
+            	bm.map.getEdgesInformation();
+            }
+            	
 		
 		
 	}
