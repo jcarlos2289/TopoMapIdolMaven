@@ -292,9 +292,9 @@ public class Map {
 		return metric;
 	}
 	
-	public void getEdgesInformation(){
+	public void getEdgesInformation(String code){
 		if(edges != null){
-			FileMethods.saveFile("", "EdgesDataPath", true);
+			FileMethods.saveFile("", code+"EdgesDataPath", false);
 			for(Edge ed : edges){
 				int sizeA, sizeB;
 				sizeA = ed.a.images.size();
@@ -339,33 +339,35 @@ public class Map {
 				
 				String cadTex;
 				
-				cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+"\t";
+				cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+ " ";
 				
                 for (String st : imagesA) {
 					cadTex+=st +" ";
 				}
-				cadTex+="\t\t";
+				//cadTex+=" ";
                 
 				for (String st : imagesT) {
 					cadTex+=st +" ";
 				}
                 
                 
-				cadTex+="\t\t";
+				//cadTex+=" ";
                 
 				for (String st : imagesB) {
 					cadTex+=st +" ";
 				}
 				cadTex+="\n";
 				
-				FileMethods.saveFile(cadTex, "EdgesDataPath", true);
+				FileMethods.saveFile(cadTex, code+"EdgesDataPath", true);
 				
 			}
 		}
 		
+	
+		
 		
 		if(edges != null){
-			FileMethods.saveFile("", "EdgesData", true);
+			FileMethods.saveFile("", code+"EdgesData", false);
 			for(Edge ed : edges){
 				int sizeA, sizeB;
 				sizeA = ed.a.images.size();
@@ -433,30 +435,69 @@ public class Map {
 				
 				String cadTex;
 				
-				cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+"\t";
+				cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+" ";
 				
                 for (String st : imagesA) {
 					cadTex+=st +" ";
 				}
-				cadTex+="\t\t";
+				//cadTex+="\t";
                 
 				for (String st : imagesT) {
 					cadTex+=st +" ";
 				}
                 
                 
-				cadTex+="\t\t";
+				//cadTex+="\t";
                 
 				for (String st : imagesB) {
 					cadTex+=st +" ";
 				}
 				cadTex+="\n";
 				
-				FileMethods.saveFile(cadTex, "EdgesData", true);
+				FileMethods.saveFile(cadTex, code+"EdgesData", true);
 				
 			}
 			}
 	}
+	public void printTrans(String code){
+		ArrayList<Integer> nodesA = new ArrayList<Integer>();
+		ArrayList<Integer> nodesB = new ArrayList<Integer>();
+		ArrayList<Integer> evaluated = new ArrayList<Integer>();
+		double cumulatedPercentaje = 0;
+		
+		int y = 0;
+		System.out.printf("Mapa %s\n#\tA\tB\n", code);
+		for(Edge ed : edges){
+			//	String cadTex;
+			//cadTex = String.valueOf(nodes.indexOf(ed.a))+"->"+String.valueOf(nodes.indexOf(ed.b))+ " ";
+
+			System.out.printf("%d\t%d\t%d\n",y++,nodes.indexOf(ed.a),nodes.indexOf(ed.b));
+			nodesA.add(nodes.indexOf(ed.a));
+			nodesB.add(nodes.indexOf(ed.b));
+		}
+
+		for(int g : nodesA){
+
+			if(!evaluated.contains(g)){
+				int o = Collections.frequency(nodesA, g);
+				if (o>=2){
+					double pc= o/edges.size();
+					cumulatedPercentaje+=pc;
+				}
+				evaluated.add(g);
+			}
+
+
+		}
+
+		System.out.printf("\nRegresion Percentaje\t%.2f\n", cumulatedPercentaje*100);
+		
+		
+		
+		
+		
+	}
+	
 	
 	public String getMapInfo(String name, String th1, String th2, String cutNode){
 		

@@ -1329,10 +1329,23 @@ public class Gui extends JFrame implements ActionListener {
             }
             
             if(e.getSource()==jmiTransInfo){
-            	bm.map.getEdgesInformation();
+            	Date date = new Date();
+     	        DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+     	        String imgName;
+     	        imgName = name+"_"+hourdateFormat.format(date)+"_";
+            	bm.map.getEdgesInformation(imgName);
             }
             	
 		
+		
+	}
+	
+	private void printInfoEdge(){
+		Date date = new Date();
+	        DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        String imgName;
+	        imgName = name+"_"+hourdateFormat.format(date)+"_";
+    	bm.map.printTrans(imgName);
 		
 	}
 
@@ -1379,7 +1392,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //2
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", -0.00000001, 968, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, 5, 2000000000);
 	        name= "MinnieCloudy2_HybridAlexNet";
@@ -1390,7 +1404,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //3
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_", -0.00000001, 894, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, 5, 2000000000);
 	        name= "MinnieCloudy3_HybridAlexNet";
@@ -1401,6 +1416,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        printInfoEdge();
 	        
 	        //4
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_", -0.00000001, 975, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, 5, 2000000000);
@@ -1412,7 +1428,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	       
 	        //Night
 	        //1
@@ -1425,7 +1442,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //2
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", -0.00000001, 1181, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, 5, 2000000000);
 	        name= "MinnieNight2_HybridAlexNet";
@@ -1436,7 +1454,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //3
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", -0.00000001, 921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, 5, 2000000000);
 	        name= "MinnieNight3_HybridAlexNet";
@@ -1447,7 +1466,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //4
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", -0.00000001, 864, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183, 5, 2000000000);
 	        name= "MinnieNight4_HybridAlexNet";
@@ -1458,7 +1478,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //Sunny
 	        //1       
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", -0.00000001, 853, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, 5, 2000000000);
@@ -1470,7 +1491,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-     
+	        printInfoEdge();
+	        
 	        //2
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_", -0.00000001, 849, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, 5, 2000000000);
 	        name= "MinnieSunny2_HybridAlexNet";
@@ -1481,7 +1503,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //3
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_", -0.00000001, 1014, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183, 5, 2000000000);
 	        name= "MinnieSunny3_HybridAlexNet";
@@ -1492,7 +1515,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-
+	        printInfoEdge();
+	        
 	        //4
 	        bm.readTags(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", -0.00000001, 890, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183, 5, 2000000000);
 	        name= "MinnieSunny4_HybridAlexNet";
@@ -1503,7 +1527,8 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
-		
+	        printInfoEdge();
+	        
 		
 		
 	}
