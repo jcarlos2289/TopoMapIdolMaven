@@ -481,7 +481,7 @@ public class Map {
 			if(!evaluated.contains(g)){
 				int o = Collections.frequency(nodesA, g);
 				if (o>=2){
-					double pc= o/edges.size();
+					double pc= (float)o/(float)edges.size();
 					cumulatedPercentaje+=pc;
 				}
 				evaluated.add(g);
@@ -490,9 +490,11 @@ public class Map {
 
 		}
 
-		System.out.printf("\nRegresion Percentaje\t%.2f\n", cumulatedPercentaje*100);
+		System.out.printf("\nRegresion Percentaje\t%.1f\n\n\n", cumulatedPercentaje*100);
 		
-		
+		if (cumulatedPercentaje >0){
+			FileMethods.saveFile(code +"\t" +String.valueOf(cumulatedPercentaje)+"\n", "TransicionsConsole", true);
+		}
 		
 		
 		

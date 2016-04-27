@@ -139,7 +139,7 @@ public class BuildMap {
 		map = new Map();
 		map.setWeights(cutNode);
 		double minDist, dist;
-		int cont=0;
+		//int cont=0;
 		Node auxNode, auxNode2;
 		@SuppressWarnings("unused")
 		boolean foundNode, foundEdge;
@@ -147,17 +147,17 @@ public class BuildMap {
 		// For the first image, create a node
 		Node currentNode = map.createNode(imgTags.get(0));
 		for (int i=1; i<sequenceLength; i++) {
-			cont++;
-			if ((cont%1000)==0) System.out.println("Processing img="+i);
+			//cont++;
+			//if ((cont%1000)==0) System.out.println("Processing img="+i);
 			// Find the closest node
 			minDist=Double.MAX_VALUE;
 			auxNode2=null;
 			for (int n=0; n<map.getMapSize(); n++) {
 				auxNode=map.getNode(n);
 				if (auxNode!=currentNode) {
-					//dist=auxNode.distance(imgTags.get(i));
+					dist=auxNode.distance(imgTags.get(i));
 					//dist=auxNode.x2(auxNode.histoMean,imgTags.get(i));
-					dist=auxNode.kullback(auxNode.histoMean,imgTags.get(i));
+					//dist=auxNode.kullback(auxNode.histoMean,imgTags.get(i));
 					//dist=auxNode.jensenShannonDivergence(auxNode.histoMean,imgTags.get(i));
 					//dist=auxNode.ecludianDistance(auxNode.histoMean,imgTags.get(i));
 					if (dist<minDist) {
@@ -166,9 +166,9 @@ public class BuildMap {
 					}
 				}
 			}
-			//dist = currentNode.distance(imgTags.get(i));
+			dist = currentNode.distance(imgTags.get(i));
 			//dist = currentNode.x2(currentNode.histoMean,imgTags.get(i));
-			dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
+			//dist = currentNode.kullback(currentNode.histoMean,imgTags.get(i));
 			//dist = currentNode.jensenShannonDivergence(currentNode.histoMean,imgTags.get(i));
 			//dist=currentNode.ecludianDistance(currentNode.histoMean,imgTags.get(i));
 			//FileMethods.saveFile(String.valueOf(dist)+"\n","Distancias", true);	

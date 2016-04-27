@@ -536,7 +536,9 @@ public class Node {
 
 
 		//return (klDivergence1(p1, average) + klDivergence1(p2, average))/2;
-		return (klDivergence(histo, averag) + klDivergence(image, averag))/2;
+		double js = (klDivergence(histo, averag) + klDivergence(image, averag))/2;
+		//System.out.printf("Dist JS: %.6f\n",js);
+		return js;
 	}
 
 
@@ -612,7 +614,7 @@ public class Node {
 			 klDiv += p1[i] * Math.log( p1[i] / p2[i] );
 		 }*/
 		double h = klDiv / Math.log(2);
-		System.out.printf("Dist JS: %.6f\n",h);
+		//System.out.printf("Dist JS: %.6f\n",h);
 
 		return h; // moved this division out of the loop -DM
 	}
