@@ -205,6 +205,163 @@ public class BuildMap {
 		
 	}
 	
+	public void compareMap(String base, double threshold, int seq2Lenght, String dataPath, int dim, int clas , int loop){
+		ArrayList<ImageTags> imgTagsSeq2 = new ArrayList<ImageTags>();
+		ArrayList<Node> selectedNode = new ArrayList<Node>();
+		ArrayList<Double> SimDistance = new ArrayList<Double>();
+		ArrayList<Double> MetDistance = new ArrayList<Double>();
+		ImageTags itags2;
+		
+		String fileName;
+		FileReader fr=null;
+		BufferedReader br=null;
+		String line;
+		//nClass = clas;
+		//dimension = dim;
+		//sequenceLength = seqLenght;
+		
+		// First, read the image coordinates files
+		double []xcoord, ycoord;
+		String[] cats;
+		xcoord= new double[seq2Lenght+1];
+		ycoord= new double[seq2Lenght+1];
+		cats=new String[seq2Lenght+1];
+		
+		for (int i=0; i<seq2Lenght+1; i++) {
+			xcoord[i]=ycoord[i]=-1;
+		}
+		
+		try {
+			//fr = new FileReader (new File ("IDOL_DUMBO_Cl1.txt"));
+			fr = new FileReader (new File (dataPath));
+			br = new BufferedReader(fr);
+			// The first line is the name of the file, ignored
+			line = br.readLine();
+			while ((line=br.readLine())!=null) {
+				String[] sp = line.split(" ");
+				int i=Integer.parseInt(sp[0]);
+				xcoord[i]=Double.parseDouble(sp[1]);
+				ycoord[i]=Double.parseDouble(sp[2]);
+				cats[i]=sp[4];
+				
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				if (fr != null) {   
+					fr.close();
+				}
+			} 
+			catch (Exception e2){ 
+				e2.printStackTrace();
+			}
+		}
+
+		imgTagsSeq2.clear();
+		// Process all the images and read the tags
+		for (int i=1; i<seq2Lenght+1; i++) {
+			fileName=base+i+".txt";
+			try {
+				itags2=new ImageTags(fileName);
+				itags2.setThreshold((float)threshold);
+				itags2.setCategory(cats[i]);
+				if (xcoord[i]!=-1) {
+					itags2.setCoords(xcoord[i], ycoord[i]);
+				}
+				else {
+					for (int j=i-2, k=i+1; j>0 || k<seq2Lenght; j--, k++) {
+						if (j>0 && xcoord[j]!=-1) {
+							itags2.setCoords(xcoord[j], ycoord[j]);
+							break;
+						}
+						if (k<seq2Lenght && xcoord[k]!=-1) {
+							itags2.setCoords(xcoord[k], ycoord[k]);
+							break;
+						}
+					}
+				}
+				fr = new FileReader (new File (fileName));
+				br = new BufferedReader(fr);
+				// The first line is the name of the file, ignored
+				//line = br.readLine(); //------------------------------------------------------
+				while ((line=br.readLine())!=null) {
+					itags2.addTag(line);
+				}
+				
+				imgTagsSeq2.add(itags2);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			} 
+			finally {
+				try {
+					if (fr != null) {   
+						fr.close();
+					}
+				} 
+				catch (Exception e2){ 
+					e2.printStackTrace();
+				}
+			}
+		}
+	//End of the load of seq2
+		
+		//Begin process for find the most similar node to each image
+		//base on histogram distance
+		
+		
+		
+			
+		
+		for (ImageTags imgT : imgTagsSeq2) {
+			double minDistance = Double.MAX_VALUE;
+			double dist =0;
+			Node aux =null;
+			
+			for(Node n: map.nodes){
+				dist = n.distance(imgT);
+				
+				if (dist< minDistance){
+					minDistance = dist;
+					aux= n;
+				}
+				if (aux!= null){
+					selectedNode.add(aux);
+					SimDistance.add(minDistance);
+					MetDistance.add(
+							
+							
+							getMetDistance(aux.representative.xcoord, aux.representative.ycoord, imgT.xcoord, imgT.ycoord)
+							
+							
+							);
+							
+							
+					//Calcular la distancia Euclidea
+				}
+				  
+			}
+			
+			
+		}
+		
+		
+		
+	}
+	
+	public double getMetDistance(double x1,double y1, double x2, double y2){
+		
+		double d =Math.sqrt( (Math.pow(x1-x2,2)    +        Math.pow( y1 - y2,2)));
+		
+		
+		return d;
+	}
+	
+	
+	
 	public void printMap () {
 		map.printMap();
 	}

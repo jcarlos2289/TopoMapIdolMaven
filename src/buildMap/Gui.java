@@ -1343,19 +1343,16 @@ public class Gui extends JFrame implements ActionListener {
             
             if(e.getSource()==jmiPrintTrans){
             	double t1, t2;
-            	
-            	t1 = 0.001;
+
+            	t1 = 0.0015;
             	t2= 0.015;
-            	
-            	for(int i = 0; i < 20; i++)
-            	
-            		for (int j = 0; j < 20; j++) {
-            			generate12Maps(t1, t2);
-            			t1=0.0001;
-					}
-            	t2+=0.0001;
-            	t1=0.015;
-            	
+
+            	//for (int j = 0; j < 20; j++) {
+            		generate12Maps(t1, t2);
+            		//t1+=0.0001;
+            	//}
+
+
             }
             	
 		
@@ -1696,7 +1693,7 @@ public class Gui extends JFrame implements ActionListener {
 	        cm.repaint();
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
-	        cm.createImage(imgName);
+	        //cm.createImage(imgName);
 	        printInfoEdge();
 	        
 	        //Sunny
