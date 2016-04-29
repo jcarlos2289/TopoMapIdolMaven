@@ -55,7 +55,7 @@ public class Gui extends JFrame implements ActionListener {
 	String name ;
 	
 	 JMenu jmOperations, jmShows;
-	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps, jmiEdgesInfo, jmiPrintTrans;
+	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps, jmiEdgesInfo, jmiPrintTrans, jmiEvalMap;
      JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB, highTagsCB, thTagsCB;
      JMenu jMDataSet,jMSunny,jMCloudy, jMNight;
      JMenuItem jmiCl_1, jmiCl_2, jmiCl_3, jmiCl_4, jmiNi_1, jmiNi_2, jmiNi_3, jmiNi_4, jmiSu_1, jmiSu_2, jmiSu_3, jmiSu_4;
@@ -63,7 +63,7 @@ public class Gui extends JFrame implements ActionListener {
      JLabel statusLabel;
 	
 	public Gui() {
-		threshold1 = 0.001;
+		threshold1 = 0.0015;
 		threshold2 = 0.015;
 		cutNode = 15;
 		bm = new BuildMap(threshold1, threshold2, cutNode);
@@ -283,6 +283,10 @@ public class Gui extends JFrame implements ActionListener {
 	        jmiPrintTrans.addActionListener(this);
 	        jmOperations.add(jmiPrintTrans);
 	          
+	        jmiEvalMap = new JMenuItem("Eval Generated Map");
+	        jmiEvalMap.addActionListener(this);
+	        jmOperations.add(jmiEvalMap);
+	        
 
 	        jmShows = new JMenu("View");
 	        
@@ -1354,10 +1358,92 @@ public class Gui extends JFrame implements ActionListener {
 
 
             }
+            
+            if(e.getSource()== jmiEvalMap){
+            	//String seq2Name= "MinnieNight3_HybridAlexNet";
+            	
+            	/*bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_",
+            			921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, name, "MinnieNight3_HybridAlexNet", true);*/
+            	
+            	getGeneralComparison();
+            	           	
+            }
             	
 		
 		
 	}
+	
+	
+	public void getGeneralComparison(){
+		
+
+
+		//Cloudy
+		//Cl_1
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/min_cloudy1_HybridAlexNet/IDOL_MINNIE_Cl1_", 
+				 915, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy1/IDOL_MINNIE_Cl1.txt",1183, name, "MinnieCloudy1_HybridAlexNet",false);
+		//name= "MinnieCloudy1_HybridAlexNet";
+
+		//Cl_2
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/min_cloudy2_HybridAlexNet/IDOL_MINNIE_Cl2_", 
+				968, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy2/IDOL_MINNIE_Cl2.txt",1183, name, "MinnieCloudy2_HybridAlexNet",false);
+		//name= "MinnieCloudy2_HybridAlexNet";
+		//Cl_3
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/min_cloudy3_HybridAlexNet/IDOL_MINNIE_Cl3_",
+				 894, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy3/IDOL_MINNIE_Cl3.txt",1183, name, "MinnieCloudy3_HybridAlexNet",false);
+		//name= "MinnieCloudy3_HybridAlexNet";
+
+		//Cl_4
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/min_cloudy4_HybridAlexNet/IDOL_MINNIE_Cl4_",
+				 975, dataSetPath + "KTH_IDOL/KTH_Minnie/min_cloudy4/IDOL_MINNIE_Cl4.txt",1183, name,"MinnieCloudy4_HybridAlexNet",false);
+		//name= "MinnieCloudy4_HybridAlexNet";
+
+		//Night
+		//Ni_1
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/min_night1_HybridAlexNet/IDOL_MINNIE_Ni1_",
+				 1039, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night1/IDOL_MINNIE_Ni1.txt",1183, name, "MinnieNight1_HybridAlexNet",false);
+		//name= "MinnieNight1_HybridAlexNet";
+
+		//Ni_2
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/min_night2_HybridAlexNet/IDOL_MINNIE_Ni2_", 
+				 1181, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night2/IDOL_MINNIE_Ni2.txt",1183, name, "MinnieNight2_HybridAlexNet",false);
+		//name= "MinnieNight2_HybridAlexNet";
+
+		//Ni_3
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_", 
+				 921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, name, "MinnieNight3_HybridAlexNet",false);
+		//name= "MinnieNight3_HybridAlexNet";
+
+		//Ni_4
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/min_night4_HybridAlexNet/IDOL_MINNIE_Ni4_", 
+				 864, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night4/IDOL_MINNIE_Ni4.txt",1183,name, "MinnieNight4_HybridAlexNet",false);
+		//name= "MinnieNight4_HybridAlexNet";
+
+		//Sunny
+		// Su_1
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/min_sunny1_HybridAlexNet/IDOL_MINNIE_Su1_", 
+				 853, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny1/IDOL_MINNIE_Su1.txt",1183, name, "MinnieSunny1_HybridAlexNet",false);
+		//name= "MinnieSunny1_HybridAlexNet";
+
+		// Su_2
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/min_sunny2_HybridAlexNet/IDOL_MINNIE_Su2_",
+				 849, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny2/IDOL_MINNIE_Su2.txt",1183, name, "MinnieSunny2_HybridAlexNet",false);
+		//name= "MinnieSunny2_HybridAlexNet";
+
+		// Su_3
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/min_sunny3_HybridAlexNet/IDOL_MINNIE_Su3_",
+				 1014, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny3/IDOL_MINNIE_Su3.txt",1183,name, "MinnieSunny3_HybridAlexNet",false);
+		//name= "MinnieSunny3_HybridAlexNet";
+
+		//Su_4
+		bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/min_sunny4_HybridAlexNet/IDOL_MINNIE_Su4_", 
+				 890, dataSetPath + "KTH_IDOL/KTH_Minnie/min_sunny4/IDOL_MINNIE_Su4.txt",1183,name, "MinnieSunny4_HybridAlexNet",false);
+		//name= "MinnieSunny4_HybridAlexNet";
+
+	}
+	
+	
+	
 	
 	private void printInfoEdge(){
 		Date date = new Date();
@@ -1382,7 +1468,7 @@ public class Gui extends JFrame implements ActionListener {
 		    Date date = new Date();
 	        DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 	        String imgName;
-	        float thr1 = (float) 0.001;
+	        float thr1 = (float) 0.0015;
 	        float thr2 = (float) 0.015;
 	        int cn =15;
 	        

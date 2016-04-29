@@ -3,7 +3,13 @@ package buildMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class BuildMap {
 	ArrayList<ImageTags> imgTags;
@@ -205,9 +211,11 @@ public class BuildMap {
 		
 	}
 	
-	public void compareMap(String base, double threshold, int seq2Lenght, String dataPath, int dim, int clas , int loop){
+	public void compareMap(String base, int seq2Lenght, String dataPath, int dim, String seq1Name, String seq2Name, boolean showDialog ){
+		
 		ArrayList<ImageTags> imgTagsSeq2 = new ArrayList<ImageTags>();
-		ArrayList<Node> selectedNode = new ArrayList<Node>();
+		ArrayList<Node> nearSimilitudeNode = new ArrayList<Node>();
+		ArrayList<Node> nearDistanceNode = new ArrayList<Node>();
 		ArrayList<Double> SimDistance = new ArrayList<Double>();
 		ArrayList<Double> MetDistance = new ArrayList<Double>();
 		ImageTags itags2;
@@ -266,7 +274,7 @@ public class BuildMap {
 			fileName=base+i+".txt";
 			try {
 				itags2=new ImageTags(fileName);
-				itags2.setThreshold((float)threshold);
+				itags2.setThreshold(-1);
 				itags2.setCategory(cats[i]);
 				if (xcoord[i]!=-1) {
 					itags2.setCoords(xcoord[i], ycoord[i]);
@@ -317,46 +325,124 @@ public class BuildMap {
 			
 		
 		for (ImageTags imgT : imgTagsSeq2) {
-			double minDistance = Double.MAX_VALUE;
-			double dist =0;
+			double minSimilarity = Double.MAX_VALUE, minDistance = Double.MAX_VALUE;
+			double dist =0, metDist =0;
 			Node aux =null;
-			
+			Node aux2 = null;
+
 			for(Node n: map.nodes){
+				//Similarity Distance
 				dist = n.distance(imgT);
-				
-				if (dist< minDistance){
-					minDistance = dist;
+				if (dist< minSimilarity){
+					minSimilarity = dist;
 					aux= n;
 				}
-				if (aux!= null){
-					selectedNode.add(aux);
-					SimDistance.add(minDistance);
-					MetDistance.add(
-							
-							
-							getMetDistance(aux.representative.xcoord, aux.representative.ycoord, imgT.xcoord, imgT.ycoord)
-							
-							
-							);
-							
-							
-					//Calcular la distancia Euclidea
+
+				//Metric Distance
+				metDist = getMetDistance(n.representative.xcoord, n.representative.ycoord, imgT.xcoord, imgT.ycoord);
+				if(metDist<minDistance){
+					minDistance = metDist;
+					aux2=n;
 				}
-				  
 			}
-			
-			
+
+
+			if (aux!= null){
+				nearSimilitudeNode.add(aux);
+				SimDistance.add(minSimilarity);
+			}
+
+
+			if (aux2!= null){
+				nearDistanceNode.add(aux2);
+				MetDistance.add(minDistance);
+			}
 		}
 		
 		
 		
+		
+		ArrayList<Integer> transitions = new ArrayList<Integer>();
+		ArrayList<Double> metricValue = new ArrayList<Double>();
+		int tran= 0;
+		
+		for(int i=0; i<seq2Lenght; i++){
+			tran = Math.abs(map.nodes.indexOf(nearDistanceNode.get(i)) -  map.nodes.indexOf(nearSimilitudeNode.get(i)));
+			transitions.add(tran);
+			metricValue.add( (double) transitions.get(i)*  MetDistance.get(i) );
+		}
+		
+	
+
+		String text = "", text2="";
+		
+		text2 = "#\tImageName\tSimilar Node\tDistance\tNear Node\tDistance\tTransitions\tEvaluation\n";
+		
+		
+		FileMethods.saveFile(text2, "MapEvaluation_"+seq1Name+"-vs-"+seq2Name, false);
+		 DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+	    simbol.setDecimalSeparator(',');
+		DecimalFormat format = new DecimalFormat("##.#####", simbol);
+		text += "<html>";
+		text+="<h1>Map Evaluation Results</h1><br>";
+		text +="<h2>"+seq1Name +"-vs-"+seq2Name+"</h2><br>";
+		
+		text += "<table border=\"1\">";
+		text += "<tr> <th>#</th> <th>ImageName</th> <th>Similar Node</th> <th>Near Node</th> <th>Transitions</th> <th>Evaluation</th></tr>";
+		for(int i=0; i<seq2Lenght; i++){
+			String[] ram = imgTagsSeq2.get(i).imageName.split("/");
+
+			text+="<tr>";	
+			text+="<td>"+String.valueOf(i+1)+"</td>";	
+
+			text+="<td>"+ram[ram.length-1]+"</td>";	
+
+			text+="<td>"+String.valueOf(map.nodes.indexOf(nearSimilitudeNode.get(i)))+"("+format.format(SimDistance.get(i))+")"+"</td>";	
+
+			text+="<td>"+String.valueOf(map.nodes.indexOf(nearDistanceNode.get(i)))+"("+format.format(MetDistance.get(i))+")"+"</td>";	
+
+			text+="<td>"+String.valueOf(transitions.get(i))+"</td>";	
+
+			text+="<td>"+format.format(metricValue.get(i))+"</td>";	
+
+			text+="</tr>";	
+			//File
+			text2=String.valueOf(i+1)+"\t";	
+
+			text2+=ram[ram.length-1]+"\t";		
+
+			text2+=String.valueOf(map.nodes.indexOf(nearSimilitudeNode.get(i)))+"\t"+format.format(SimDistance.get(i))+"\t";		
+
+			text2+=String.valueOf(map.nodes.indexOf(nearDistanceNode.get(i)))+"\t"+format.format(MetDistance.get(i))+"\t";		
+
+			text2+=String.valueOf(transitions.get(i))+"\t";		
+
+			text2+=format.format(metricValue.get(i))+"\n";		
+			
+			FileMethods.saveFile(text2, "MapEvaluation_"+seq1Name+"-vs-"+seq2Name, true);
+				
+		}
+	
+		text += "</table>";
+		text += "\n</html>";
+		
+		
+		if(showDialog){
+		JLabel data = new JLabel(text);
+		JScrollPane  scroll = new JScrollPane(data);
+		JDialog result = new JDialog();
+		
+		result.add(scroll);
+		result.setSize(500, 400);
+		result.setLocationRelativeTo(null);
+		result.setVisible(true);
+		}
+	
 	}
 	
 	public double getMetDistance(double x1,double y1, double x2, double y2){
 		
 		double d =Math.sqrt( (Math.pow(x1-x2,2)    +        Math.pow( y1 - y2,2)));
-		
-		
 		return d;
 	}
 	
