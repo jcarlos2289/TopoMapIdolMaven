@@ -2,11 +2,16 @@ package buildMap;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Map {
 	ArrayList<Node> nodes;
@@ -255,6 +260,187 @@ public class Map {
 		table+= "</html>";
 		return table;
 				
+		
+	}
+	
+	public void calcPrecRecallData(double th1, double th2, ArrayList<ImageTags> imgTags){
+		String resultado ="Nodo\tSize\tDif\tTP\tFP\tFN\tTN\tPre\tRecall\tIn\tOut\n";	
+		int nCounter=0;
+		
+		ArrayList<ArrayList<ImageTags>> fakeMap= new ArrayList<ArrayList<ImageTags>> ();
+		
+		for(Node nd: nodes){
+			ArrayList<ImageTags> h = new ArrayList<ImageTags>();
+			fakeMap.add(h);
+		}
+		
+	
+		for(ImageTags imgTg: imgTags){
+			ConcurrentHashMap <Integer, Float> distances = new ConcurrentHashMap<Integer,Float>(); 
+			
+			for(Node nd: nodes){
+				distances.put(nCounter,(float) nd.distance(imgTg));
+				nCounter++;
+			}
+			ArrayList<Integer> minDist = ListMethods.getTopXElement(1, distances);
+			fakeMap.get(minDist.get(0)).add(imgTg);
+			nCounter=0;
+		}
+		
+		
+		
+		
+		
+		nCounter =0;
+		for(Node nd: nodes){
+			int TP= 0, FP =0, FN =0, TN =0;
+			
+			
+			ArrayList<ImageTags> listaImg = fakeMap.get(nCounter);
+			
+			for(ImageTags im: listaImg){
+				if(nd.images.contains(im)){
+					TP++;
+				}else
+					FP++;
+			}
+			
+			ArrayList<ImageTags> imgTagsCopy =  new ArrayList<ImageTags>();
+			imgTagsCopy.addAll(imgTags);
+			imgTagsCopy.removeAll(nd.images);
+			//Cantidad de elementos que no se añadieron al nodo al momento de construir el mapa
+			TN = imgTagsCopy.size();
+			
+			
+			//elementos que no se añadieron al Nodo de Comprobacion
+			imgTagsCopy.clear();
+			imgTagsCopy.addAll(imgTags);
+			imgTagsCopy.removeAll(listaImg);
+			TN = imgTagsCopy.size();
+			
+			for(ImageTags im: imgTagsCopy){
+				if(nd.images.contains(im)){
+					FN++;
+					TN--;
+				}
+			}
+				
+					 
+		   	DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+	       simbol.setDecimalSeparator('.');
+	       DecimalFormat formateador = new DecimalFormat("####.###",simbol);
+			
+			double pre = 0, recall = 0;
+			pre = (double)TP/(TP+FP);
+			recall = (double)TP/(TP+FN);
+			
+			resultado +=  String.valueOf(nCounter)+"\t"
+					    + String.valueOf(nd.images.size())+"\t"
+					    + String.valueOf((imgTags.size() - nd.images.size()))+"\t"
+					    + String.valueOf(TP)  +"\t"
+					    + String.valueOf(FP)  +"\t"
+					    + String.valueOf(FN)  +"\t"
+					    + String.valueOf(TN)  +"\t"
+					    + formateador.format(pre) +"\t"
+					    + formateador.format(recall)  +"\t"
+					    + String.valueOf(listaImg.size())  +"\t"
+					    + String.valueOf(imgTagsCopy.size())  +"\n";
+			nCounter++;
+								
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		//Metodo 1 =(
+		//Comprobar todas las imagenes en cada nodo
+		 * int nCounter=1;
+		for (Node node : nodes) {
+			ArrayList<ImageTags> inNode  = new ArrayList<ImageTags>();
+			ArrayList<ImageTags> outNode  = new ArrayList<ImageTags>();
+			ArrayList<ImageTags> in  = new ArrayList<ImageTags>();
+			ArrayList<ImageTags> out  = new ArrayList<ImageTags>();
+			
+			int TP= 0, FP =0, FN =0, TN =0;
+			
+			for(ImageTags imgTg: imgTags){
+											
+				double dist = node.distance(imgTg);
+				if(dist<th2) {
+					in.add(imgTg);
+				}else
+					out.add(imgTg);
+								
+				if(node.images.contains(imgTg)){
+					inNode.add(imgTg);
+				}else
+					outNode.add(imgTg);
+			}
+		
+			
+			
+			//los que se ven buenos
+			for(ImageTags im: in){
+				if(inNode.contains(im)){
+					TP++; // True positive = correctly identified
+				}else
+					FP++; //  False positive = incorrectly identified
+			}
+			
+			//los que se ven malos
+			for(ImageTags im: out){
+				if(outNode.contains(im)){
+					TN++; // True negative = correctly rejected
+				}else
+					FN++; //   False negative = incorrectly rejected
+				}
+			
+			
+			//noooooooooooooooo
+		//True positives (TP) - Correctly idd as success
+		  //  ## True negatives (TN) - Correctly idd as failure
+		 //   ## False positives (FP) - success incorrectly idd as failure
+		 //   ## False negatives (FN) - failure incorrectly idd as success
+		   
+		   	DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+	        simbol.setDecimalSeparator('.');
+	        DecimalFormat formateador = new DecimalFormat("####.###################",simbol);
+			
+			double pre = 0, recall = 0;
+			pre = (double)TP/(TP+FP);
+			recall = (double)TP/(TP+FN);
+			
+			resultado +=  String.valueOf(nCounter)+"\t"
+					    + String.valueOf(node.images.size())+"\t"
+					    + String.valueOf((imgTags.size() - node.images.size()))+"\t"
+					    + String.valueOf(TP)  +"\t"
+					    + String.valueOf(FP)  +"\t"
+					    + String.valueOf(FN)  +"\t"
+					    + String.valueOf(TN)  +"\t"
+					    + formateador.format(pre) +"\t"
+					    + formateador.format(recall)  +"\t"
+					    + String.valueOf(in.size())  +"\t"
+					    + String.valueOf(out.size())  +"\n";
+			
+			
+			
+			nCounter++;
+		}
+		//Fin Metodo 1--------------------------------------------------------------------
+		*/
+		System.out.print("SeqLen="+ String.valueOf(imgTags.size())+ "\n"+resultado);
+		FileMethods.saveFile(resultado, "ROC", false);
+		
+		
+		
+		
 		
 	}
 	

@@ -440,6 +440,11 @@ public class BuildMap {
 	
 	}
 	
+	public void getPreRecallData(){
+		map.calcPrecRecallData(threshold1, threshold2, imgTags);
+		
+	}
+	
 	public double getMetDistance(double x1,double y1, double x2, double y2){
 		
 		double d =Math.sqrt( (Math.pow(x1-x2,2)    +        Math.pow( y1 - y2,2)));

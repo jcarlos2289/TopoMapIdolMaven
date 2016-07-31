@@ -55,7 +55,7 @@ public class Gui extends JFrame implements ActionListener {
 	String name ;
 	
 	 JMenu jmOperations, jmShows;
-	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps, jmiEdgesInfo, jmiPrintTrans, jmiEvalMap;
+	 JMenuItem jmiGetCluster, jmiGenCluster, jmiCapture, jmiGenMap, jmiGenAllMaps, jmiEdgesInfo, jmiPrintTrans, jmiEvalMap, jmiRecallData;
      JCheckBoxMenuItem originalCB, graphCB, backCB, showNodesCB, clustersCB, highTagsCB, thTagsCB;
      JMenu jMDataSet,jMSunny,jMCloudy, jMNight;
      JMenuItem jmiCl_1, jmiCl_2, jmiCl_3, jmiCl_4, jmiNi_1, jmiNi_2, jmiNi_3, jmiNi_4, jmiSu_1, jmiSu_2, jmiSu_3, jmiSu_4;
@@ -286,6 +286,11 @@ public class Gui extends JFrame implements ActionListener {
 	        jmiEvalMap = new JMenuItem("Eval Generated Map");
 	        jmiEvalMap.addActionListener(this);
 	        jmOperations.add(jmiEvalMap);
+	        
+	       
+	        jmiRecallData = new JMenuItem("Calc Presision and Recall");
+	        jmiRecallData.addActionListener(this);
+	        jmOperations.add(jmiRecallData);
 	        
 
 	        jmShows = new JMenu("View");
@@ -1370,6 +1375,16 @@ public class Gui extends JFrame implements ActionListener {
             }
             	
 		
+            if(e.getSource()== jmiRecallData){
+            	//String seq2Name= "MinnieNight3_HybridAlexNet";
+            	
+            	/*bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_",
+            			921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, name, "MinnieNight3_HybridAlexNet", true);*/
+            	
+            	bm.getPreRecallData();
+            	           	
+            }
+            
 		
 	}
 	
