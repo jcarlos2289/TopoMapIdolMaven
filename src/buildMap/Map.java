@@ -309,7 +309,7 @@ public class Map {
 			imgTagsCopy.addAll(imgTags);
 			imgTagsCopy.removeAll(nd.images);
 			//Cantidad de elementos que no se añadieron al nodo al momento de construir el mapa
-			TN = imgTagsCopy.size();
+			//TN = imgTagsCopy.size();
 			
 			
 			//elementos que no se añadieron al Nodo de Comprobacion
