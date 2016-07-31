@@ -206,7 +206,7 @@ public class BuildMap {
 			
 
 		}//end for
-		//Calcular Metrica Aqui
+		//Calcular Metrica
 		
 		
 	}
@@ -440,8 +440,8 @@ public class BuildMap {
 	
 	}
 	
-	public void getPreRecallData(){
-		map.calcPrecRecallData(threshold1, threshold2, imgTags);
+	public void getPreRecallData(String name){
+		map.calcPrecRecallData(threshold1, threshold2, imgTags, name);
 		
 	}
 	

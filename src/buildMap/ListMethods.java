@@ -92,7 +92,7 @@ public class ListMethods {
 				
 	}
 	
-	
+	//Ordenacion con Integer como Key
 	public static LinkedHashMap<Integer, Float> orderHashMap3(ConcurrentHashMap<Integer,Float> hashData, boolean descendant){
 		Set<Entry<Integer, Float>> entries = hashData.entrySet();
 		Comparator<Entry<Integer, Float>> valueComparator = new Comparator<Entry<Integer, Float>>() {

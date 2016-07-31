@@ -263,9 +263,11 @@ public class Map {
 		
 	}
 	
-	public void calcPrecRecallData(double th1, double th2, ArrayList<ImageTags> imgTags){
+	public void calcPrecRecallData(double th1, double th2, ArrayList<ImageTags> imgTags, String name){
 		String resultado ="Nodo\tSize\tDif\tTP\tFP\tFN\tTN\tPre\tRecall\tIn\tOut\n";	
 		int nCounter=0;
+		DecimalFormatSymbols simbol = new DecimalFormatSymbols();
+	       simbol.setDecimalSeparator('.');
 		
 		ArrayList<ArrayList<ImageTags>> fakeMap= new ArrayList<ArrayList<ImageTags>> ();
 		
@@ -326,9 +328,9 @@ public class Map {
 			}
 				
 					 
-		   	DecimalFormatSymbols simbol = new DecimalFormatSymbols();
-	       simbol.setDecimalSeparator('.');
-	       DecimalFormat formateador = new DecimalFormat("####.###",simbol);
+		   
+	       DecimalFormat formateador = new DecimalFormat("####.############",simbol);
+	       
 			
 			double pre = 0, recall = 0;
 			pre = (double)TP/(TP+FP);
@@ -435,8 +437,10 @@ public class Map {
 		}
 		//Fin Metodo 1--------------------------------------------------------------------
 		*/
+		
+		DecimalFormat formateadorTh = new DecimalFormat("####.####",simbol);
 		System.out.print("SeqLen="+ String.valueOf(imgTags.size())+ "\n"+resultado);
-		FileMethods.saveFile(resultado, "ROC", false);
+		FileMethods.saveFile(resultado, name+"_"+formateadorTh.format(th1)+"_"+ formateadorTh.format(th2)+"_ROC", false);
 		
 		
 		

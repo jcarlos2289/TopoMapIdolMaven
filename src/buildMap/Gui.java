@@ -288,7 +288,7 @@ public class Gui extends JFrame implements ActionListener {
 	        jmOperations.add(jmiEvalMap);
 	        
 	       
-	        jmiRecallData = new JMenuItem("Calc Presision and Recall");
+	        jmiRecallData = new JMenuItem("Calc Presision and Recall Data");
 	        jmiRecallData.addActionListener(this);
 	        jmOperations.add(jmiRecallData);
 	        
@@ -1381,7 +1381,7 @@ public class Gui extends JFrame implements ActionListener {
             	/*bm.compareMap(dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/min_night3_HybridAlexNet/IDOL_MINNIE_Ni3_",
             			921, dataSetPath + "KTH_IDOL/KTH_Minnie/min_night3/IDOL_MINNIE_Ni3.txt",1183, name, "MinnieNight3_HybridAlexNet", true);*/
             	
-            	bm.getPreRecallData();
+            	bm.getPreRecallData(name);
             	           	
             }
             
@@ -1479,7 +1479,7 @@ public class Gui extends JFrame implements ActionListener {
 
 	private void generate12ImagesMaps() {
 		// TODO Auto-generated method stub
-		
+			//Generate the maps for the 12 sequences of the Idol Dataset
 		    Date date = new Date();
 	        DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 	        String imgName;
@@ -1520,6 +1520,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //2
@@ -1532,6 +1533,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //3
@@ -1544,6 +1546,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //4
@@ -1556,6 +1559,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	       
@@ -1570,6 +1574,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //2
@@ -1582,6 +1587,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //3
@@ -1594,6 +1600,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //4
@@ -1606,6 +1613,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //Sunny
@@ -1619,6 +1627,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //2
@@ -1631,6 +1640,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //3
@@ -1643,6 +1653,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 	        //4
@@ -1655,6 +1666,7 @@ public class Gui extends JFrame implements ActionListener {
 	        date = new Date();
 	        imgName = name+"_"+formateador.format(bm.threshold1)+"_"+formateador.format(bm.threshold2)+"_"+hourdateFormat.format(date);
 	        cm.createImage(imgName);
+	        bm.getPreRecallData(name);
 	        printInfoEdge();
 	        
 		
